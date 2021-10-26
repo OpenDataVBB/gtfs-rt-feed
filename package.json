@@ -1,0 +1,43 @@
+{
+	"private": true,
+	"name": "bbnavi-gtfs-rt-feed",
+	"description": "Generates a GTFS Realtime feed by polling the VBB HAFAS API.",
+	"version": "1.0.0",
+	"main": "index.js",
+	"keywords": [
+		"berlin",
+		"brandenburg",
+		"vbb",
+		"bvg",
+		"gtfs-rt",
+		"gtfs realtime",
+		"transit",
+		"public transport"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/bbnavi/gtfs-rt-feed",
+	"repository": "bbnavi/gtfs-rt-feed",
+	"bugs": "https://github.com/bbnavi/gtfs-rt-feed/issues",
+	"engines": {
+		"node": ">=16"
+	},
+	"dependencies": {
+		"cached-hafas-client": "^4.0.0",
+		"hafas-client": "^5.16.0",
+		"hafas-gtfs-rt-feed": "^5.3.0",
+		"ioredis": "^4.26.0",
+		"normalize-vbb-station-name-for-search": "^1.0.0",
+		"slugg": "^1.2.1"
+	},
+	"devDependencies": {
+		"eslint": "^8.0.0",
+		"pino-pretty": "^7.0.1"
+	},
+	"scripts": {
+		"start": "./start.sh",
+		"lint": "eslint .",
+		"build": "./build.sh",
+		"test": "./test/index.sh",
+		"prepublishOnly": "npm run lint && npm run build && npm test"
+	}
+}
