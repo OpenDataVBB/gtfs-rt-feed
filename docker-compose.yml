@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  bbnavi-gtfs-rt-feed:
+    build: .
+    environment:
+      BBOX: '{"north": 53.129, "west": 12.486, "south": 52.247, "east": 14.458}'
+      NATS_STREAMING_URL: http://nats-streaming:4222/
+      REDIS_URL: http://redis:6379/
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: $POSTGRES_PASSWORD
+    depends_on:
+      - nats-streaming
+      - redis
+      - db
+    ports:
+      - "3000:3000"
+  nats-streaming:
+    image: nats-streaming
+  redis:
+    image: redis
+  db:
+    hostname: db
+    image: postgis/postgis
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
