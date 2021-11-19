@@ -18,7 +18,7 @@ LABEL org.opencontainers.image.description="Generates a GTFS Realtime feed by po
 LABEL org.opencontainers.image.authors="Jannis R <mail@jannisr.de>"
 LABEL org.opencontainers.image.documentation="https://github.com/bbnavi/gtfs-rt-feed"
 LABEL org.opencontainers.image.source="https://github.com/bbnavi/gtfs-rt-feed"
-LABEL org.opencontainers.image.revision="1"
+LABEL org.opencontainers.image.revision="2"
 WORKDIR /app
 
 # install dependencies
