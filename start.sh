@@ -10,6 +10,7 @@ lib="$(dirname $(realpath $0))/lib"
 trap 'exit_code=$?; kill -- $(jobs -p); exit $exit_code' SIGINT SIGTERM EXIT
 
 NODE_ENV=production node_modules/.bin/monitor-hafas \
+	--on-demand \
 	$lib/hafas.js \
 	&
 
@@ -19,6 +20,9 @@ NODE_ENV=production node_modules/.bin/match-with-gtfs \
 	&
 
 NODE_ENV=production node_modules/.bin/serve-as-gtfs-rt \
+	--signal-demand \
+	--static-feed-url 'https://vbb-gtfs.jannisr.de/latest/' \
 	&
+  # --static-feed-info gtfs/feed_info.txt \
 
 wait || exit 1 # fail if any child failed
