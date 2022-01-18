@@ -10,7 +10,7 @@ lib="$(dirname $(realpath $0))/lib"
 trap 'exit_code=$?; kill -- $(jobs -p); exit $exit_code' SIGINT SIGTERM EXIT
 
 NODE_ENV=production node_modules/.bin/monitor-hafas \
-	--on-demand \
+	--trips-fetch-mode on-demand \
 	$lib/hafas.js \
 	&
 
