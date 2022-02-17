@@ -39,6 +39,12 @@ Specify the bounding box to be observed as JSON:
 export BBOX='{"north": 52.52, "west": 13.36, "south": 52.5, "east": 13.39}'
 ```
 
+In addition, you need to configure an access token in order to access the HAFAS API (you can obtain one at [VBB's API page](https://www.vbb.de/vbb-services/api-open-data/api/)):
+
+```shell
+export TOKEN='…'
+```
+
 `bbnavi-gtfs-rt-feed` uses `hafas-gtfs-rt-feed` underneath, which is split into three parts: polling the HAFAS endpoint (`monitor-hafas` CLI), matching realtime data (`match-with-gtf` CLI), and serving a GTFS-RT feed (`serve-as-gtfs-rt` CLI). You can run all three at once using the `start.sh` wrapper script:
 
 ```shell

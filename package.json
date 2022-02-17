@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"cached-hafas-client": "^4.0.0",
-		"hafas-client": "^5.16.0",
+		"hafas-client": "github:public-transport/hafas-client#rest-exe",
 		"hafas-gtfs-rt-feed": "^7.3.0",
 		"ioredis": "^4.26.0",
 		"luxon": "^2.3.0",
