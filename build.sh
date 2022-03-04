@@ -18,11 +18,11 @@ NODE_ENV=production node_modules/.bin/gtfs-to-sql -d --trips-without-shape-id --
 	gtfs/stop_times.txt \
 	gtfs/stops.txt \
 	gtfs/trips.txt \
-	| psql -b
+	| sponge | psql -b
 	# gtfs/frequencies.txt \
 	# gtfs/transfers.txt \
 
 lib="$(dirname $(realpath $0))/lib"
 NODE_ENV=production node_modules/.bin/build-gtfs-match-index \
 	$lib/hafas-info.js $lib/gtfs-info.js \
-	| psql -b
+	| sponge | psql -b
