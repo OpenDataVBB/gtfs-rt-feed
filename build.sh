@@ -4,8 +4,9 @@ set -e
 set -o pipefail
 set -x
 
-wget -c --compression auto -O gtfs.zip -N 'https://gtfs.mfdz.de/DELFI.BB.gtfs.zip'
-unzip -o -d gtfs -j gtfs.zip
+wget -c --compression auto -N 'https://gtfs.mfdz.de/DELFI.BB.gtfs.zip'
+rm gtfs/* || true
+unzip -o -d gtfs -j DELFI.BB.gtfs.zip
 
 env | grep '^PG'
 

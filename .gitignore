@@ -7,5 +7,6 @@ pnpm-debug.log
 /yarn.lock
 /shrinkwrap.yaml
 
+/DELFI.BB.gtfs.zip
 /gtfs
 /dump.rdb
