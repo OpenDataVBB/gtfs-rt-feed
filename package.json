@@ -24,7 +24,7 @@
 	"dependencies": {
 		"cached-hafas-client": "^4.0.0",
 		"hafas-client": "^5.16.0",
-		"hafas-gtfs-rt-feed": "^7.3.0",
+		"hafas-gtfs-rt-feed": "^8.1.1",
 		"ioredis": "^5.0.6",
 		"luxon": "^2.3.0",
 		"normalize-vbb-station-name-for-search": "^1.0.0",
