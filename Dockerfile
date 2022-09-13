@@ -22,7 +22,7 @@ LABEL org.opencontainers.image.revision="2"
 WORKDIR /app
 
 # install dependencies
-RUN apk add --update bash wget postgresql-client
+RUN apk add --update --no-cache bash wget postgresql-client
 ADD package.json /app
 RUN npm install --production && npm cache clean --force
 
