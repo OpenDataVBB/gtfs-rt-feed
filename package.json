@@ -27,6 +27,7 @@
 		"hafas-client": "^5.16.0",
 		"hafas-gtfs-rt-feed": "^8.2.0",
 		"ioredis": "^5.0.6",
+		"localaddress-agent": "^2.0.1",
 		"luxon": "^2.3.0",
 		"normalize-vbb-station-name-for-search": "^1.0.0",
 		"quick-lru": "^5.1.1",
