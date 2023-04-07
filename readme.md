@@ -7,7 +7,7 @@ This project uses [`hafas-client`](https://github.com/public-transport/hafas-cli
 
 ## Installing & running
 
-*Note*: [`hafas-gtfs-rt-feed`](https://github.com/derhuerst/hafas-gtfs-rt-feed), the library used by this project for convert for building the GTFS-RT feed, has more extensive docs. For brevity and to avoid duplication (with e.g. [`hamburg-gtfs-rt-server`](https://github.com/derhuerst/hamburg-gtfs-rt-server)), the following instructions just cover the basics.
+*Note*: [`hafas-gtfs-rt-feed`](https://github.com/derhuerst/hafas-gtfs-rt-feed), the library used by this project for convert for building the GTFS-RT feed, [has more extensive docs](https://github.com/derhuerst/hafas-gtfs-rt-feed/blob/8.2.1/readme.md). For brevity and to avoid duplication (with e.g. [`berlin-gtfs-rt-server`](https://github.com/derhuerst/berlin-gtfs-rt-server)), the following instructions just cover the basics.
 
 ### Prerequisites
 
@@ -17,12 +17,14 @@ It also needs access to a [PostgreSQL](https://www.postgresql.org) 14+ server; P
 
 It also needs access to a [NATS Streaming](https://docs.nats.io/nats-streaming-concepts/intro) server (just follow its [setup guide](https://docs.nats.io/nats-streaming-server/run)); Set the `NATS_STREAMING_URL` environment variable if you run it in an unusual configuration.
 
-The [`start.sh` script](start.sh) requires at least Bash 5.0 to run (because it uses `5.0`); macOS currently bundles Bash 3.2, so use `brew install bash` to install an up-to-date version.
+The [`start.sh` script](start.sh) requires at least Bash 5.0 to run (because it uses `wait -n`); macOS currently bundles Bash 3.2, so use `brew install bash` to install an up-to-date version.
+
+Then, clone `bbnavi-gtfs-rt-feed` and install its dependencies.
 
 ```shell
 git clone https://github.com/bbnavi/gtfs-rt-feed.git
 cd bbnavi-gtfs-rt-feed
-npm install --production
+npm install
 ```
 
 ### Building the matching index
