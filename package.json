@@ -28,14 +28,14 @@
 		"hafas-gtfs-rt-feed": "^8.2.0",
 		"ioredis": "^5.0.6",
 		"localaddress-agent": "^2.0.1",
-		"luxon": "^2.3.0",
+		"luxon": "^3.3.0",
 		"normalize-vbb-station-name-for-search": "^1.0.0",
 		"quick-lru": "^5.1.1",
 		"slugg": "^1.2.1"
 	},
 	"devDependencies": {
 		"eslint": "^8.0.0",
-		"pino-pretty": "^8.0.0"
+		"pino-pretty": "^10.0.0"
 	},
 	"scripts": {
 		"start": "./start.sh",
