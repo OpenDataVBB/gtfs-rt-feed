@@ -21,7 +21,7 @@ NODE_ENV=production node_modules/.bin/match-with-gtfs \
 
 NODE_ENV=production node_modules/.bin/serve-as-gtfs-rt \
 	--signal-demand \
-	--static-feed-url 'https://gtfs.mfdz.de/DELFI.BB.gtfs.zip' \
+	--static-feed-url 'https://vbb-gtfs.jannisr.de/latest/' \
 	&
   # --static-feed-info gtfs/feed_info.txt \
 

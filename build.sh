@@ -4,24 +4,26 @@ set -e
 set -o pipefail
 set -x
 
-wget -c --compression auto -N 'https://gtfs.mfdz.de/DELFI.BB.gtfs.zip'
-rm gtfs/* || true
-unzip -o -d gtfs -j DELFI.BB.gtfs.zip
+wget --compression auto \
+	-r --no-parent --no-directories -R .csv.gz \
+	-P gtfs -N 'https://vbb-gtfs.jannisr.de/latest/'
 
 env | grep '^PG'
 
 NODE_ENV=production node_modules/.bin/gtfs-to-sql -d --trips-without-shape-id --routes-without-agency-id -- \
-	gtfs/agency.txt \
-	gtfs/calendar.txt \
-	gtfs/calendar_dates.txt \
-	gtfs/routes.txt \
-	gtfs/shapes.txt \
-	gtfs/stop_times.txt \
-	gtfs/stops.txt \
-	gtfs/trips.txt \
-	| sponge | psql -b
-	# gtfs/frequencies.txt \
-	# gtfs/transfers.txt \
+	gtfs/agency.csv \
+	gtfs/calendar.csv \
+	gtfs/calendar_dates.csv \
+	gtfs/frequencies.csv \
+	gtfs/routes.csv \
+	gtfs/shapes.csv \
+	gtfs/stop_times.csv \
+	gtfs/stops.csv \
+	gtfs/transfers.csv \
+	gtfs/trips.csv \
+	| psql -b
+	# gtfs/levels.csv \
+	# gtfs/pathways.csv \
 
 lib="$(dirname $(realpath $0))/lib"
 NODE_ENV=production node_modules/.bin/build-gtfs-match-index \
