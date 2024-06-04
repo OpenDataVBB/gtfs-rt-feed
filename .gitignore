@@ -6,3 +6,8 @@ node_modules
 
 /package-lock.json
 /yarn.lock
+
+# may contain secrets, picked up by Docker Compose
+/.env
+
+/gtfs

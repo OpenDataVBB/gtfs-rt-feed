@@ -1,5 +1,37 @@
 services:
   vbb-gtfs-rt-server:
     build: .
+    environment:
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: ${POSTGRES_PASSWORD:?missing/empty}
+    depends_on:
+      - db
     ports:
       - '3000:3000'
+
+  gtfs-importer:
+    # > profiles defines a list of named profiles for the service to be enabled under. If unassigned, the service is always started but if assigned, it is only started if the profile is activated.
+    # https://github.com/compose-spec/compose-spec/blob/77cc0f9575b560c94ca2a3b94db126c54c9e4759/spec.md#profiles
+    profiles:
+      - import-gtfs
+    image: ghcr.io/mobidata-bw/postgis-gtfs-importer:v3
+    volumes:
+      - './gtfs:/tmp/gtfs'
+    environment:
+      GTFS_DOWNLOAD_USER_AGENT: ${GTFS_DOWNLOAD_USER_AGENT:-vbb-gtfs-rt-server local dev}
+      GTFS_DOWNLOAD_URL: ${GTFS_DOWNLOAD_URL:-https://www.vbb.de/vbbgtfs}
+      GTFS_IMPORTER_DB_PREFIX: ${GTFS_IMPORTER_DB_PREFIX:-gtfs}
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: ${POSTGRES_PASSWORD:?missing/empty}
+
+  db:
+    hostname: db
+    image: postgis/postgis:16-3.4-alpine
+    ports:
+      # allow it to run along side a PostgreSQL server on the host machine
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 'TbUSRHW6oP7lSKIoZOA'

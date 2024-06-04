@@ -18,5 +18,8 @@ export default [
 				},
 			],
 		},
+		ignores: [
+			'postgis-gtfs-importer',
+		],
 	},
 ]

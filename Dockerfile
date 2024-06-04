@@ -12,6 +12,14 @@ LABEL org.opencontainers.image.authors="Verkehrsverbund Berlin Brandenburg <info
 ADD package.json /app
 RUN npm install --production
 
+# install PostGIS GTFS importer
+RUN apk add --no-cache git
+RUN git submodule update --remote postgis-gtfs-importer
+RUN \
+	cd postgis-gtfs-importer \
+	&& npm install --production \
+	&& npm cache clean --force
+
 # add source code
 ADD . /app
 
