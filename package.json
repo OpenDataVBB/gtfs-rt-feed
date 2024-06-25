@@ -20,6 +20,10 @@
 		"node": ">=22"
 	},
 	"dependencies": {
+		"match-gtfs-rt-to-gtfs": "^7.0.0-alpha.1",
+		"normalize-vbb-station-name-for-search": "^1.0.1",
+		"quick-lru": "^7.0.0",
+		"slugg": "^1.2.1"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",

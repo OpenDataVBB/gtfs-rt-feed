@@ -8,6 +8,7 @@ export GTFS_DOWNLOAD_URL="${GTFS_DOWNLOAD_URL:-https://www.vbb.de/vbbgtfs}"
 export GTFS_IMPORTER_DB_PREFIX="${GTFS_IMPORTER_DB_PREFIX:-gtfs}"
 export GTFS_TMP_DIR="${GTFS_TMP_DIR:-"$PWD/gtfs"}"
 export GTFS_IMPORTER_SCHEMA=public
+export GTFS_POSTPROCESSING_D_PATH="${GTFS_POSTPROCESSING_D_PATH:-"$PWD/gtfs-postprocessing.d"}"
 
 set -x
 
