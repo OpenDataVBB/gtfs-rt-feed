@@ -21,14 +21,17 @@
 	},
 	"dependencies": {
 		"match-gtfs-rt-to-gtfs": "^7.0.0-alpha.1",
+		"nats": "^2.27.0",
 		"normalize-vbb-station-name-for-search": "^1.0.1",
+		"pino": "^9.2.0",
 		"quick-lru": "^7.0.0",
 		"slugg": "^1.2.1"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
 		"eslint": "^9.0.0",
-		"globals": "^15.0.0"
+		"globals": "^15.0.0",
+		"pino-pretty": "^10.3.1"
 	},
 	"scripts": {
 		"start": "node index.js",
