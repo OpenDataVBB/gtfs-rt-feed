@@ -20,6 +20,7 @@
 		"node": ">=22"
 	},
 	"dependencies": {
+		"iter-tools": "^7.5.3",
 		"match-gtfs-rt-to-gtfs": "^7.0.0-alpha.1",
 		"nats": "^2.27.0",
 		"normalize-vbb-station-name-for-search": "^1.0.1",
