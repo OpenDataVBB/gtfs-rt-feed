@@ -25,6 +25,7 @@
 		"nats": "^2.27.0",
 		"normalize-vbb-station-name-for-search": "^1.0.1",
 		"pino": "^9.2.0",
+		"prom-client": "^15.1.2",
 		"quick-lru": "^7.0.0",
 		"slugg": "^1.2.1"
 	},
