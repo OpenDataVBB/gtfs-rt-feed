@@ -13,7 +13,11 @@ const abortWithError = (err) => {
 }
 
 const natsLogger = createLogger('nats')
-const {natsClient} = await connectToNats({
+const {
+	natsClient,
+	natsJetstreamClient,
+	natsJetstreamManager,
+} = await connectToNats({
 	logger: natsLogger,
 })
 
@@ -23,8 +27,10 @@ metricsServer.start()
 	logger.info(`serving Prometheus metrics on port ${metricsServer.address().port}`)
 }, abortWithError)
 
-runGtfsMatching({
+await runGtfsMatching({
 	natsClient,
+	natsJetstreamClient,
+	natsJetstreamManager,
 })
 
 withSoftExit(() => {
