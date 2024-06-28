@@ -1,0 +1,87 @@
+{
+	"LinienID": "SVF981",
+	"LinienText": "981",
+	"RichtungsID": "SVF981A",
+	"RichtungsText": "Bahnhof",
+	"FahrtID": {
+		"FahrtBezeichner": "17638-00054-1#SVF",
+		"Betriebstag": "2024-06-27"
+	},
+	"Komplettfahrt": "false",
+	"UmlaufID": "98109",
+	"PrognoseMoeglich": "true",
+	"FahrzeugTypID": "NF-Bus, Rampe",
+	"ServiceAttributs": [],
+	"IstHalts": [
+		{
+			"HaltID": "ODEG_900360079",
+			"Abfahrtszeit": "2024-06-27T10:24:00+02:00",
+			"IstAbfahrtPrognose": "2024-06-27T10:24:00+02:00",
+			"AbfahrtssteigText": null,
+			"Einsteigeverbot": null,
+			"Ankunftszeit": null,
+			"IstAnkunftPrognose": null,
+			"AnkunftssteigText": null,
+			"Aussteigeverbot": null,
+			"Durchfahrt": null,
+			"Zusatzhalt": null,
+			"HinweisText": null
+		},
+		{
+			"HaltID": "ODEG_900360135",
+			"Abfahrtszeit": "2024-06-27T10:27:00+02:00",
+			"IstAbfahrtPrognose": "2024-06-27T10:27:37+02:00",
+			"AbfahrtssteigText": null,
+			"Einsteigeverbot": null,
+			"Ankunftszeit": "2024-06-27T10:27:00+02:00",
+			"IstAnkunftPrognose": "2024-06-27T10:27:36+02:00",
+			"AnkunftssteigText": null,
+			"Aussteigeverbot": null,
+			"Durchfahrt": null,
+			"Zusatzhalt": null,
+			"HinweisText": null
+		},
+		{
+			"HaltID": "ODEG_122207",
+			"Abfahrtszeit": "2024-06-27T10:28:00+02:00",
+			"IstAbfahrtPrognose": "2024-06-27T10:29:32+02:00",
+			"AbfahrtssteigText": null,
+			"Einsteigeverbot": null,
+			"Ankunftszeit": "2024-06-27T10:28:00+02:00",
+			"IstAnkunftPrognose": "2024-06-27T10:29:32+02:00",
+			"AnkunftssteigText": null,
+			"Aussteigeverbot": null,
+			"Durchfahrt": null,
+			"Zusatzhalt": null,
+			"HinweisText": null
+		},
+		{
+			"HaltID": "ODEG_900360022",
+			"Abfahrtszeit": "2024-06-27T10:28:30+02:00",
+			"IstAbfahrtPrognose": "2024-06-27T10:31:15+02:00",
+			"AbfahrtssteigText": null,
+			"Einsteigeverbot": null,
+			"Ankunftszeit": "2024-06-27T10:28:30+02:00",
+			"IstAnkunftPrognose": "2024-06-27T10:31:15+02:00",
+			"AnkunftssteigText": null,
+			"Aussteigeverbot": null,
+			"Durchfahrt": null,
+			"Zusatzhalt": null,
+			"HinweisText": null
+		},
+		{
+			"HaltID": "ODEG_900360000",
+			"Abfahrtszeit": null,
+			"IstAbfahrtPrognose": null,
+			"AbfahrtssteigText": null,
+			"Einsteigeverbot": null,
+			"Ankunftszeit": "2024-06-27T10:37:00+02:00",
+			"IstAnkunftPrognose": "2024-06-27T10:41:12+02:00",
+			"AnkunftssteigText": "3",
+			"Aussteigeverbot": null,
+			"Durchfahrt": null,
+			"Zusatzhalt": null,
+			"HinweisText": null
+		}
+	]
+}

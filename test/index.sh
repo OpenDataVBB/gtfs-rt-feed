@@ -5,4 +5,4 @@ cd $(dirname $(realpath $0))
 
 set -x
 
-# todo
+node vdv-aus-istfahrt-as-fptf-trip.js

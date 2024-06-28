@@ -1,0 +1,56 @@
+{
+	"id": "17638-00054-1#SVF",
+	"direction": "Bahnhof",
+	"line": {
+		"id": "SVF981",
+		"name": "981"
+	},
+	"fahrtNr": "98109",
+	"stopovers": [
+		{
+			"stop": {
+				"id": "ODEG_900360079"
+			},
+			"plannedArrival": null,
+			"arrival": null,
+			"plannedDeparture": "2024-06-27T10:24:00+02:00",
+			"departure": "2024-06-27T10:24:00+02:00"
+		},
+		{
+			"stop": {
+				"id": "ODEG_900360135"
+			},
+			"plannedArrival": "2024-06-27T10:27:00+02:00",
+			"arrival": "2024-06-27T10:27:36+02:00",
+			"plannedDeparture": "2024-06-27T10:27:00+02:00",
+			"departure": "2024-06-27T10:27:37+02:00"
+		},
+		{
+			"stop": {
+				"id": "ODEG_122207"
+			},
+			"plannedArrival": "2024-06-27T10:28:00+02:00",
+			"arrival": "2024-06-27T10:29:32+02:00",
+			"plannedDeparture": "2024-06-27T10:28:00+02:00",
+			"departure": "2024-06-27T10:29:32+02:00"
+		},
+		{
+			"stop": {
+				"id": "ODEG_900360022"
+			},
+			"plannedArrival": "2024-06-27T10:28:30+02:00",
+			"arrival": "2024-06-27T10:31:15+02:00",
+			"plannedDeparture": "2024-06-27T10:28:30+02:00",
+			"departure": "2024-06-27T10:31:15+02:00"
+		},
+		{
+			"stop": {
+				"id": "ODEG_900360000"
+			},
+			"plannedArrival": "2024-06-27T10:37:00+02:00",
+			"arrival": "2024-06-27T10:41:12+02:00",
+			"plannedDeparture": null,
+			"departure": null
+		}
+	]
+}
