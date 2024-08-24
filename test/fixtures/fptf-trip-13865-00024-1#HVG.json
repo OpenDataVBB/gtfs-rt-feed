@@ -4,11 +4,11 @@
 	"line": {
 		"id": "HVG687",
 		"name": "687",
+		"fahrtNr": "79274",
 		"operator": {
 			"id": "havelbus-verkehrsgesellschaft-mbh"
 		}
 	},
-	"fahrtNr": "79274",
 	"stopovers": [
 		{
 			"stop": {
