@@ -3,7 +3,10 @@
 	"direction": "Friesack",
 	"line": {
 		"id": "HVG687",
-		"name": "687"
+		"name": "687",
+		"operator": {
+			"id": "havelbus-verkehrsgesellschaft-mbh"
+		}
 	},
 	"fahrtNr": "79274",
 	"stopovers": [

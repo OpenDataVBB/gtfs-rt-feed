@@ -3,7 +3,10 @@
 	"direction": "Bahnhof",
 	"line": {
 		"id": "SVF981",
-		"name": "981"
+		"name": "981",
+		"operator": {
+			"id": "stadtverkehrsgesellschaft-mbh-frankfurt-oder"
+		}
 	},
 	"fahrtNr": "98109",
 	"stopovers": [
