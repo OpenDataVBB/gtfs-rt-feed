@@ -9,7 +9,7 @@
 	"stopovers": [
 		{
 			"stop": {
-				"id": "ODEG_900210771",
+				"id": "900210771",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -24,7 +24,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210787",
+				"id": "900210787",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -39,7 +39,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210785",
+				"id": "900210785",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -54,7 +54,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210808",
+				"id": "900210808",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -69,7 +69,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210779",
+				"id": "900210779",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -84,7 +84,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210809",
+				"id": "900210809",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -99,7 +99,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210000",
+				"id": "900210000",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -114,7 +114,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210159",
+				"id": "900210159",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -129,7 +129,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210374",
+				"id": "900210374",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -144,7 +144,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210058",
+				"id": "900210058",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -159,7 +159,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210282",
+				"id": "900210282",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -174,7 +174,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210281",
+				"id": "900210281",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -189,7 +189,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210331",
+				"id": "900210331",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -204,7 +204,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210297",
+				"id": "900210297",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -219,7 +219,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210248",
+				"id": "900210248",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -234,7 +234,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210287",
+				"id": "900210287",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -249,7 +249,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210286",
+				"id": "900210286",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -264,7 +264,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210287",
+				"id": "900210287",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -279,7 +279,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210287",
+				"id": "900210287",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -294,7 +294,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210182",
+				"id": "900210182",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -309,7 +309,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210076",
+				"id": "900210076",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -324,7 +324,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900210449",
+				"id": "900210449",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",

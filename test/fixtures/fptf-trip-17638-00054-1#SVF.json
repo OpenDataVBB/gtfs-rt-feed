@@ -9,7 +9,7 @@
 	"stopovers": [
 		{
 			"stop": {
-				"id": "ODEG_900360079",
+				"id": "900360079",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -24,7 +24,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900360135",
+				"id": "900360135",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -39,7 +39,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_122207",
+				"id": "122207",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -54,7 +54,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900360022",
+				"id": "900360022",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
@@ -69,7 +69,7 @@
 		},
 		{
 			"stop": {
-				"id": "ODEG_900360000",
+				"id": "900360000",
 				"name": "foo bAr BAZ",
 				"location": {
 					"type": "location",
