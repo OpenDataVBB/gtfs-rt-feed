@@ -9,12 +9,12 @@
 	"stopovers": [
 		{
 			"stop": {
-				"id": "900210771",
-				"name": "foo bAr BAZ",
+				"id": "de:12063:900210771",
+				"name": "Rathenow, Bahnhof",
 				"location": {
 					"type": "location",
-					"latitude": 1.23,
-					"longitude": 2.34
+					"latitude": 52.600105,
+					"longitude": 12.354617
 				}
 			},
 			"plannedArrival": null,

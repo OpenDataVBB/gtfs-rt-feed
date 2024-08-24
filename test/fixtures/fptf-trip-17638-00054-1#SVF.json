@@ -69,12 +69,12 @@
 		},
 		{
 			"stop": {
-				"id": "900360000",
-				"name": "foo bAr BAZ",
+				"id": "de:12053:900360000",
+				"name": "Frankfurt (Oder), Bahnhof",
 				"location": {
 					"type": "location",
-					"latitude": 1.23,
-					"longitude": 2.34
+					"latitude": 52.336709,
+					"longitude": 14.547147
 				}
 			},
 			"plannedArrival": "2024-06-27T10:37:00+02:00",
