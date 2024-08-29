@@ -1,37 +1,18 @@
-FROM node:alpine as builder
+# syntax=docker/dockerfile:1.8
+# ^ needed for ADD --checksum=…
+
+FROM node:22-alpine
 WORKDIR /app
 
-# install dependencies
-RUN apk add --update git bash
-ADD package.json /app
-RUN npm install
-
-# build documentation
-ADD . /app
-RUN npm run docs
-
-# ---
-
-FROM node:alpine
-LABEL org.opencontainers.image.title="bbnavi-gtfs-rt-feed"
-LABEL org.opencontainers.image.description="Generates a GTFS Realtime feed by polling the VBB HAFAS API."
-LABEL org.opencontainers.image.authors="Jannis R <mail@jannisr.de>"
-LABEL org.opencontainers.image.documentation="https://github.com/bbnavi/gtfs-rt-feed"
-LABEL org.opencontainers.image.source="https://github.com/bbnavi/gtfs-rt-feed"
-LABEL org.opencontainers.image.revision="2"
-WORKDIR /app
+LABEL org.opencontainers.image.title="vbb-gtfs-rt-service"
+LABEL org.opencontainers.image.description="Matches realtime VDV-454 transit data against GTFS Schedule and serves it as GTFS Realtime."
+LABEL org.opencontainers.image.authors="Verkehrsverbund Berlin Brandenburg <info@vbb.de>"
 
 # install dependencies
-RUN apk add --update --no-cache bash wget postgresql-client
 ADD package.json /app
-RUN npm install --production && npm cache clean --force
+RUN npm install --production
 
 # add source code
 ADD . /app
-COPY --from=builder /app/docs ./docs
 
-EXPOSE 3000
-
-ENV PORT 3000
-
-CMD ["./start.sh"]
+CMD [ "node", "index.js"]

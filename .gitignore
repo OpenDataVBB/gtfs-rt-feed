@@ -3,10 +3,6 @@ Thumbs.db
 
 .nvm-version
 node_modules
-pnpm-debug.log
-/yarn.lock
-/shrinkwrap.yaml
 
-/DELFI.BB.gtfs.zip
-/gtfs
-/dump.rdb
+/package-lock.json
+/yarn.lock

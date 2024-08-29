@@ -1,47 +1,35 @@
 {
 	"private": true,
-	"name": "bbnavi-gtfs-rt-feed",
-	"description": "Generates a GTFS Realtime feed by polling the VBB HAFAS API.",
-	"version": "2.0.0",
+	"name": "vbb-gtfs-rt-service",
+	"description": "Matches realtime VDV-454 transit data against GTFS Schedule and serves it as GTFS Realtime.",
+	"version": "0.1.0",
 	"type": "module",
 	"main": "index.js",
-	"keywords": [
-		"berlin",
-		"brandenburg",
-		"vbb",
-		"bvg",
-		"gtfs-rt",
-		"gtfs realtime",
-		"transit",
-		"public transport"
+	"author": "Verkehrsverbund Berlin Brandenburg <info@vbb.de>",
+	"contributors": [
+		"Jannis R <mail@jannisr.de>"
 	],
-	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/bbnavi/gtfs-rt-feed",
-	"repository": "bbnavi/gtfs-rt-feed",
-	"bugs": "https://github.com/bbnavi/gtfs-rt-feed/issues",
+	"homepage": "https://github.com/OpenDataVBB/gtfs-rt-feed",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/OpenDataVBB/gtfs-rt-feed.git"
+	},
+	"bugs": "https://github.com/OpenDataVBB/gtfs-rt-feed/issues",
+	"license": "ISC",
 	"engines": {
-		"node": ">=16"
+		"node": ">=22"
 	},
 	"dependencies": {
-		"cached-hafas-client": "^4.0.0",
-		"hafas-client": "^5.16.0",
-		"hafas-gtfs-rt-feed": "^8.2.0",
-		"ioredis": "^5.0.6",
-		"localaddress-agent": "^2.0.1",
-		"luxon": "^3.3.0",
-		"normalize-vbb-station-name-for-search": "^1.0.0",
-		"quick-lru": "^5.1.1",
-		"slugg": "^1.2.1"
 	},
 	"devDependencies": {
-		"eslint": "^8.0.0",
-		"pino-pretty": "^10.0.0"
+		"@eslint/js": "^9.0.0",
+		"eslint": "^9.0.0",
+		"globals": "^15.0.0"
 	},
 	"scripts": {
-		"start": "./start.sh",
+		"start": "node index.js",
 		"lint": "eslint .",
-		"build": "./build.sh",
 		"test": "./test/index.sh",
-		"prepublishOnly": "npm run lint && npm run build && npm test"
+		"prepublishOnly": "npm run lint && npm test"
 	}
 }
