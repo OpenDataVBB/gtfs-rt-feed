@@ -28,6 +28,7 @@ metricsServer.start()
 }, abortWithError)
 
 await runGtfsMatching({
+	logger,
 	natsClient,
 	natsJetstreamClient,
 	natsJetstreamManager,
