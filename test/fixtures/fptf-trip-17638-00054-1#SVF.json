@@ -2,7 +2,7 @@
 	"id": "17638-00054-1#SVF",
 	"direction": "Bahnhof",
 	"line": {
-		"id": "SVF981",
+		"id": "981",
 		"name": "981",
 		"fahrtNr": "98109",
 		"operator": {
