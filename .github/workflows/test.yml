@@ -16,6 +16,8 @@ jobs:
     strategy:
       matrix:
         node-version: ['22']
+        postgis-docker-tag:
+          - '14-3.4-alpine'
 
     steps:
     - name: checkout
@@ -24,6 +26,20 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+    - name: install sponge (moreutils)
+      run: sudo apt install -y moreutils
+
+    - name: install & start PostgreSQL with PostGIS
+      run: |
+        docker run -d \
+          -e POSTGRES_USER=$PGUSER -e POSTGRES_PASSWORD=$PGPASSWORD -e POSTGRES_DB=$PGDATABASE \
+          -p 5432:5432 postgis/postgis:${{ matrix.postgis-docker-tag }} \
+          -c timezone=Europe/Berlin
+      env:
+        PGUSER: postgres
+        PGPASSWORD: password
+        PGDATABASE: postgres
+
     - run: npm install
 
     - run: npm run lint
