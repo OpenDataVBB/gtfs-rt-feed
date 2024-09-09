@@ -24,12 +24,9 @@
 		"lodash": "^4.17.21",
 		"match-gtfs-rt-to-gtfs": "^7.0.0-alpha.1",
 		"nats": "^2.27.0",
-		"normalize-vbb-station-name-for-search": "^1.0.1",
 		"pg": "^8.12.0",
 		"pino": "^9.2.0",
-		"prom-client": "^15.1.2",
-		"quick-lru": "^7.0.0",
-		"slugg": "^1.2.1"
+		"prom-client": "^15.1.2"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",

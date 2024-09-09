@@ -31,7 +31,4 @@ NODE_ENV=production build-gtfs-match-index \
 
 # ---
 
-node gtfs-stop-by-aus-haltid.js
-node vdv-aus-istfahrt-as-fptf-trip.js
-node fptf-trip-as-gtfs-rt-tripupdate.js
 env MATCH_GTFS_RT_TO_GTFS_CACHING=false node matching.js
