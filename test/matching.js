@@ -61,7 +61,7 @@ test.skip('correctly matches AUS IstFahrt 17638-00054-1#SVF & converts to TripUp
 
 // currently skipped because
 // - the matching doesn't work unambiguously
-test.skip('correctly matches the sparse AUS IstFahrt 270624_1327HMSWIU#BVG & converts to TripUpdate', async (t) => {
+test('correctly matches the sparse AUS IstFahrt 270624_1327HMSWIU#BVG & converts to TripUpdate', async (t) => {
 	const {
 		item: tripUpdate,
 		isMatched,
