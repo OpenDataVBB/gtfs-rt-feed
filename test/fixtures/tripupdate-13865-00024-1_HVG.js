@@ -3,7 +3,7 @@ const tripUpdate687 = {
 		"trip_id": "223814541",
 		"route_id": "10684_700",
 		"direction_id": 0,
-		"start_date": "2024-06-27"
+		"start_date": "20240627"
 	},
 	"stop_time_update": [
 		{
