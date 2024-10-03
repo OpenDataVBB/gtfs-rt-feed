@@ -3,7 +3,7 @@
 set -eu -o pipefail
 cd "$(dirname $0)"
 
-export GTFS_DOWNLOAD_USER_AGENT="${GTFS_DOWNLOAD_USER_AGENT:-vbb-gtfs-rt-server local dev}"
+export GTFS_DOWNLOAD_USER_AGENT="${GTFS_DOWNLOAD_USER_AGENT:-OpenDataVBB/gtfs-rt-feed GTFS import}"
 export GTFS_DOWNLOAD_URL="${GTFS_DOWNLOAD_URL:-https://www.vbb.de/vbbgtfs}"
 export GTFS_IMPORTER_DB_PREFIX="${GTFS_IMPORTER_DB_PREFIX:-gtfs}"
 export GTFS_TMP_DIR="${GTFS_TMP_DIR:-"$PWD/gtfs"}"
