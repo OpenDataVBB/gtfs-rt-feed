@@ -9,12 +9,18 @@ export GTFS_IMPORTER_DB_PREFIX="${GTFS_IMPORTER_DB_PREFIX:-gtfs}"
 export GTFS_TMP_DIR="${GTFS_TMP_DIR:-"$PWD/gtfs"}"
 export GTFS_POSTPROCESSING_D_PATH="${GTFS_POSTPROCESSING_D_PATH:-"$PWD/gtfs-postprocessing.d"}"
 
+# if stdin is not a TTY, don't pass `-it`
+docker_run_args=()
+if [ -t 1 ]; then
+	docker_run_args+=('-it')
+fi
+
 set -x
 
 if [ "${1:-}" = '--docker' ]; then
 	# run PostGIS GTFS importer using Docker
 	# todo: remove --platform
-	docker run --rm -it \
+	docker run --rm "${docker_run_args[@]}" \
 		--platform linux/amd64 \
 		--network host \
 		-v $PWD/gtfs:/tmp/gtfs \
