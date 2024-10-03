@@ -14,12 +14,19 @@ set -x
 
 if [ "${1:-}" = '--docker' ]; then
 	# run PostGIS GTFS importer using Docker
+	# todo: remove --platform
 	docker run --rm -it \
+		--platform linux/amd64 \
+		--network host \
 		-v $PWD/gtfs:/tmp/gtfs \
-		-e "GTFS_DOWNLOAD_USER_AGENT=$GTFS_DOWNLOAD_USER_AGENT" \
-		-e "GTFS_DOWNLOAD_URL=$GTFS_DOWNLOAD_URL" \
-		-e "GTFS_IMPORTER_DB_PREFIX=$GTFS_IMPORTER_DB_PREFIX" \
-		-e PGHOST=host.docker.internal -e PGUSER -e PGPASSWORD -e PGDATABASE \
+		-v "$GTFS_POSTPROCESSING_D_PATH":/etc/gtfs-postprocessing.d \
+		-e GTFS_DOWNLOAD_USER_AGENT \
+		-e GTFS_DOWNLOAD_URL \
+		-e GTFS_IMPORTER_DB_PREFIX \
+		-e GTFS_TMP_DIR \
+		-e GTFS_IMPORTER_SCHEMA \
+		-e GTFS_SQL_D_PATH=/etc/gtfs-postprocessing.d \
+		-e PGHOST=localhost -e PGUSER -e PGPASSWORD -e PGDATABASE \
 		ghcr.io/mobidata-bw/postgis-gtfs-importer:v3
 else
 	# run PostGIS GTFS importer locally
