@@ -13,8 +13,7 @@ ADD package.json /app
 RUN npm install --production
 
 # install PostGIS GTFS importer
-RUN apk add --no-cache git
-RUN git submodule update --remote postgis-gtfs-importer
+ADD postgis-gtfs-importer /app/postgis-gtfs-importer
 RUN \
 	cd postgis-gtfs-importer \
 	&& npm install --production \
