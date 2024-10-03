@@ -12,14 +12,16 @@ export GTFS_POSTPROCESSING_D_PATH="${GTFS_POSTPROCESSING_D_PATH:-"$PWD/gtfs-post
 
 set -x
 
-# run PostGIS GTFS importer using Docker
-# docker run --rm -it \
-# 	-v $PWD/gtfs:/tmp/gtfs \
-# 	-e "GTFS_DOWNLOAD_USER_AGENT=$GTFS_DOWNLOAD_USER_AGENT" \
-# 	-e "GTFS_DOWNLOAD_URL=$GTFS_DOWNLOAD_URL" \
-# 	-e "GTFS_IMPORTER_DB_PREFIX=$GTFS_IMPORTER_DB_PREFIX" \
-# 	-e PGHOST=host.docker.internal -e PGUSER -e PGPASSWORD -e PGDATABASE \
-# 	ghcr.io/mobidata-bw/postgis-gtfs-importer:v3
-
-# run PostGIS GTFS importer locally
-./postgis-gtfs-importer/importer.js
+if [ "${1:-}" = '--docker' ]; then
+	# run PostGIS GTFS importer using Docker
+	docker run --rm -it \
+		-v $PWD/gtfs:/tmp/gtfs \
+		-e "GTFS_DOWNLOAD_USER_AGENT=$GTFS_DOWNLOAD_USER_AGENT" \
+		-e "GTFS_DOWNLOAD_URL=$GTFS_DOWNLOAD_URL" \
+		-e "GTFS_IMPORTER_DB_PREFIX=$GTFS_IMPORTER_DB_PREFIX" \
+		-e PGHOST=host.docker.internal -e PGUSER -e PGPASSWORD -e PGDATABASE \
+		ghcr.io/mobidata-bw/postgis-gtfs-importer:v3
+else
+	# run PostGIS GTFS importer locally
+	./postgis-gtfs-importer/importer.js
+fi
