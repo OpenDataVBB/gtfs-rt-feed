@@ -1,8 +1,6 @@
 .git
 node_modules
 
-/postgis-gtfs-importer
-
 # may contain secrets, picked up by Docker Compose
 /.env
 
