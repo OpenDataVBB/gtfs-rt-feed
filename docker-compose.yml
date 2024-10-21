@@ -38,7 +38,9 @@ services:
     # https://github.com/compose-spec/compose-spec/blob/77cc0f9575b560c94ca2a3b94db126c54c9e4759/spec.md#profiles
     profiles:
       - import-gtfs
-    image: ghcr.io/mobidata-bw/postgis-gtfs-importer:v3
+    image: ghcr.io/mobidata-bw/postgis-gtfs-importer:v4
+    # todo: remove --platform
+    platform: linux/amd64
     volumes:
       - './gtfs:/tmp/gtfs'
     environment:
