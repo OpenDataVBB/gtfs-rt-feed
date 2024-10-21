@@ -1,7 +1,7 @@
 services:
 
   vdv-453-nats-adapter:
-    image: ghcr.io/derhuerst/vdv-453-nats-adapter:v1.0.0
+    image: ghcr.io/OpenDataVBB/vdv-453-nats-adapter:v1.0.0
     # Note: This configuration assumes that you're "mirroring" VBB's VDV-453/VDV-454 API ("VDV server") to your local machine ("host machine").
     # - The VDV server runs on a machine (within the VPN) on port 17000.
     # - Using a "jump host" within this private network, you must run
