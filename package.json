@@ -23,6 +23,7 @@
 		"ioredis": "^5.4.1",
 		"iter-tools": "^7.5.3",
 		"lodash": "^4.17.21",
+		"luxon": "^3.5.0",
 		"match-gtfs-rt-to-gtfs": "^7.0.0-alpha.1",
 		"nats": "^2.27.0",
 		"pg": "^8.12.0",
