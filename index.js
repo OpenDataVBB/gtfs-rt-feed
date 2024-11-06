@@ -27,13 +27,18 @@ metricsServer.start()
 	logger.info(`serving Prometheus metrics on port ${metricsServer.address().port}`)
 }, abortWithError)
 
-await runGtfsMatching({
-	logger,
-	natsClient,
-	natsJetstreamClient,
-	natsJetstreamManager,
-})
+try {
+	await runGtfsMatching({
+		logger,
+		natsClient,
+		natsJetstreamClient,
+		natsJetstreamManager,
+	})
 
-withSoftExit(() => {
-	natsClient.drain()
-})
+	withSoftExit(() => {
+		natsClient.drain()
+	})
+} catch (err) {
+	logger.error(err)
+	process.exit(1)
+}
