@@ -130,9 +130,47 @@ todo
 > [!IMPORTANT]
 > Although `gtfs-rt-feed` is intended to be data-source-agnostic, just following the GTFS Schedule and GTFS-RT specs, it currently has some hard-coded assumptions specific to the [VBB deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) it has been developed for. Please create an Issue if you want to use `gtfs-rt-feed` in another setting.
 
+### import GTFS Schedule data
+
+Make sure your GTFS Schedule dataset is available via HTTP without authentication. Configure the URL using `$GTFS_DOWNLOAD_URL`. Optionally, you can configure the `User-Agent` being used for downloading by setting `$GTFS_DOWNLOAD_USER_AGENT`.
+
+The GTFS import script will
+1. download the GTFS dataset;
+1. import it into a separate database called `gtfs_$timestamp_$gtfs_hash` (each revision gets its own database);
+2. keep track of the latest *successfully imported* database's name in a meta "bookkeeping" database (`$PGDATABASE` by default).
+
+Refer to [postgis-gtfs-importer's docs](https://github.com/mobidata-bw/postgis-gtfs-importer#) for details about why this is done and how it works.
+
+Optionally, you can
+- activate [gtfstidy](https://github.com/patrickbr/gtfstidy)-ing before import using `GTFSTIDY_BEFORE_IMPORT=true`;
+- postprocess the imported GTFS dataset using custom SQL scripts by putting them in `$PWD/gtfs-postprocessing.d`.
+
+Refer to the [import script](import.sh) for details about how to customize the GTFS Schedule import.
+
+```shell
+export GTFS_DOWNLOAD_URL='…'
+# Run import using Docker …
+./import.sh --docker
+# … or run import using ./postgis-gtfs-importer
+./import.sh
+```
+
+Once the import has finished, you must set `$PGDATABASE` to the name of the newly created database.
+
+```shell
+export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_import')"
+```
+
+> [!NOTE]
+> If you're running `gtfs-rt-feed` in a continuous (service-like) fashion, you'll want to run the GTFS Schedule import regularly, e.g. once per day. `postgis-gtfs-importer` won't import again if the dataset hasn't changed.
+> Because it highly depends on your deployment strategy and preferences on how to schedule the import – and how to modify `$PGDATABASE` for the `gtfs-rt-feed` process afterwards –, this repo doesn't contain any tool for that.
+> As an example, [VBB's deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) uses a [systemd timer](https://wiki.archlinux.org/title/Systemd/Timers) to schedule the import, and a [systemd service drop-in file](https://unix.stackexchange.com/a/468067/593065) to set `$PGDATABASE`.
+
+### run `gtfs-rt-feed`
+
 todo
 
-### via docker-compose
+### Alternative: Docker Compose setup
 
 The example [`docker-compose.yml`](docker-compose.yml) starts up a complete set of containers (`vbb-gtfs-rt-server` and all of its dependencies: PostgreSQL & NATS).
 
