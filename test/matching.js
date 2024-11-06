@@ -29,6 +29,8 @@ after(async () => {
 	await stop()
 })
 
+// todo: add tests for pickStopTimeUpdatesForMatching()?
+
 test('correctly matches AUS IstFahrt 13865-00024-1#HVG & converts to TripUpdate', async (t) => {
 	const {
 		item: tripUpdate,
@@ -59,8 +61,6 @@ test.skip('correctly matches AUS IstFahrt 17638-00054-1#SVF & converts to TripUp
 	// deepStrictEqual(tripUpdate, tripUpdate981)
 })
 
-// currently skipped because
-// - the matching doesn't work unambiguously
 test('correctly matches the sparse AUS IstFahrt 270624_1327HMSWIU#BVG & converts to TripUpdate', async (t) => {
 	const {
 		item: tripUpdate,
@@ -71,7 +71,10 @@ test('correctly matches the sparse AUS IstFahrt 270624_1327HMSWIU#BVG & converts
 	ok(isMatched, 'must be matched')
 
 	// todo: expect platform names
+	// console.error(inspect(tripUpdate, {depth: null, colors: true}))
+	// console.error(JSON.stringify(tripUpdate))
 	deepStrictEqual(tripUpdate, tripUpdateU8)
 })
 
 // todo: more cases
+// todo: correctly fails with ambiguous match

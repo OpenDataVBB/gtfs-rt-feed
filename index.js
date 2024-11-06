@@ -27,6 +27,9 @@ metricsServer.start()
 	logger.info(`serving Prometheus metrics on port ${metricsServer.address().port}`)
 }, abortWithError)
 
+// todo: expose health check!
+// - check if DB looks good
+
 try {
 	await runGtfsMatching({
 		logger,
