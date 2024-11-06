@@ -1,8 +1,13 @@
-# VBB GTFS-RT service
+# gtfs-rt-feed
 
 Continuously **matches realtime transit data in the [VDV-454 structure](https://www.vdv.de/i-d-s-downloads.aspx) against a [GTFS Schedule](https://gtfs.org/schedule/) dataset and generates [GTFS Realtime (GTFS-RT)](https://gtfs.org/realtime/) data**.
 
 ![ISC-licensed](https://img.shields.io/github/license/OpenDataVBB/gtfs-rt-feed.svg)
+
+> [!TIP]
+> If you're just looking for VBB's publicly deployed GTFS-RT feed:
+> - [actual GTFS-RT feed](https://production.gtfsrt.vbb.de) ([staging](https://staging.gtfsrt.vbb.de))
+> - [parsed in `gtfs-rt-inspector`](https://public-transport.github.io/gtfs-rt-inspector/?feedUrl=https%3A%2F%2Fproduction.gtfsrt.vbb.de&view=inspector) ([staging](https://public-transport.github.io/gtfs-rt-inspector/?feedUrl=https%3A%2F%2Fstaging.gtfsrt.vbb.de&view=inspector))
 
 > [!TIP]
 > Although `gtfs-rt-feed` can be used standalone, it is intended to be used in tandem with [`vdv-453-nats-adapter`](https://github.com/OpenDataVBB/vdv-453-nats-adapter) – which pulls the input VDV-454 data from a VDV-453/-454 API – and [`nats-consuming-gtfs-rt-server`](https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server) – which combines the `DIFFERENTIAL`-mode GTFS-RT data sent by `gtfs-rt-feed` into a single non-differential feed and serves it via HTTP.
