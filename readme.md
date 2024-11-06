@@ -122,13 +122,54 @@ This whole process, which we call *matching*, is done continuously for each VDV-
 
 ## Installation
 
-todo
+There is [a Docker image available](https://github.com/OpenDataVBB/pkgs/container/gtfs-rt-feed):
+
+```shell
+# Pull the Docker images …
+docker pull ghcr.io/opendatavbb/gtfs-rt-feed
+docker pull ghcr.io/mobidata-bw/postgis-gtfs-importer:v4 # needed for importing GTFS Schedule data
+
+# … or install everything manually (you will need Node.js & npm).
+git clone https://github.com/OpenDataVBB/gtfs-rt-feed.git gtfs-rt-feed
+cd gtfs-rt-feed
+npm install --omit dev
+# install submodules' dependencies
+git submodule update --checkout
+cd postgis-gtfs-importer && npm install --omit dev
+```
 
 
 ## Getting Started
 
 > [!IMPORTANT]
 > Although `gtfs-rt-feed` is intended to be data-source-agnostic, just following the GTFS Schedule and GTFS-RT specs, it currently has some hard-coded assumptions specific to the [VBB deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) it has been developed for. Please create an Issue if you want to use `gtfs-rt-feed` in another setting.
+
+### Prerequisites
+
+`gtfs-rt-feed` needs access to the following services to work:
+
+- a [NATS message queue](https://docs.nats.io) with [JetStream](https://docs.nats.io/nats-concepts/jetstream) enabled
+- a [PostgreSQL database server](https://postgresql.org), with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer)'s readme)
+- a [Redis in-memory cache](https://redis.io/docs/latest/)
+
+#### configure access to PostgreSQL
+
+`gtfs-rt-feed` uses [`pg`](https://npmjs.com/package/pg) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [`pg`'s docs](https://node-postgres.com).
+
+To make sure that the connection works, use [`psql`](https://www.postgresql.org/docs/14/app-psql.html) from the same context (same permissions, same container if applicable, etc.).
+
+#### configure access to NATS
+
+`gtfs-rt-feed` uses [`nats`](https://npmjs.com/package/nats) to connect to NATS. You can use the following environment variables to configure access:
+- `$NATS_SERVERS` – list of NATS servers (e.g. `localhost:4222`), separated by `,`
+- `$NATS_USER` & `$NATS_PASSWORD` – if you need [authentication](https://docs.nats.io/using-nats/developer/connecting/userpass)
+- `$NATS_CLIENT_NAME` – the [connection name](https://docs.nats.io/using-nats/developer/connecting/name)
+
+By default, `gtfs-rt-feed` will connect as `gtfs-rt-$MAJOR_VERSION` to `localhost:4222` without authentication.
+
+#### configure access to Redis
+
+`gtfs-rt-feed` uses [`ioredis`](https://npmjs.com/package/ioredis) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [its docs](https://github.com/redis/ioredis#readme).
 
 ### import GTFS Schedule data
 
@@ -168,7 +209,28 @@ export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_import')"
 
 ### run `gtfs-rt-feed`
 
-todo
+```shell
+# Run using Docker …
+# (In production, use the container deployment tool of your choice.)
+docker run --rm -it \
+	-e PGDATABASE \
+	# note: pass through other environment variables here
+	ghcr.io/opendatavbb/gtfs-rt-feed
+
+# … or manually.
+# (During development, pipe the logs through `./node_modules/.bin/pino-pretty`.)
+node index.js
+```
+
+todo: `$LOG_LEVEL`
+todo: `$LOG_LEVEL_MATCHING`
+todo: `$LOG_LEVEL_FORMATTING`
+todo: `$LOG_LEVEL_STATION_WEIGHT`
+todo: `$METRICS_SERVER_PORT`
+todo: `$MATCHING_CONCURRENCY`
+todo: `$MATCH_GTFS_RT_TO_GTFS_CACHING`
+todo: `$MATCHING_CONSUMER_DURABLE_NAME`
+todo: `$PG_POOL_SIZE`
 
 ### Alternative: Docker Compose setup
 
