@@ -251,6 +251,25 @@ POSTGRES_PASSWORD=my_secret_password docker-compose up
 ```
 
 
+## Operating `gtfs-rt-feed`
+
+### Logs
+
+`gtfs-rt-feed` writes [pino-formatted](https://getpino.io/) log messages to `stdout`, so you can use [pino-compatible tools](https://getpino.io/#/docs/ecosystem) to process them.
+
+### Monitoring
+
+`gtfs-rt-feed` exposes [Prometheus](https://prometheus.io)-compatible metrics via HTTP. By default, the metrics server will listen on a random port. You can configure a permanent port using `$METRICS_SERVER_PORT`.
+
+The following *kinds* of metrics will be exported:
+- domain-specific metrics, e.g.
+	- number of successful/failed/errored matchings
+	- DB/cache query timings
+- [technical details about the Node.js process](https://github.com/siimon/prom-client/blob/c1d76c5d497ef803f6bd90c56c713c3fa811c3e0/README.md#default-metrics), e.g. the current state of garbage collection
+
+Refer to the [Grafana dashboard in VBB's deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure/blob/cc920812506ae1b36962cd3453068ff199581392/lib/grafana/dashboards/gtfs-rt.json) for an example how to visualize `gtfs-rt-feed`'s metrics.
+
+
 ## License
 
 This project is [ISC-licensed](license.md).
