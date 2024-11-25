@@ -172,6 +172,52 @@ To make sure that the connection works, use [`psql`](https://www.postgresql.org/
 
 By default, `gtfs-rt-feed` will connect as `gtfs-rt-$MAJOR_VERSION` to `localhost:4222` without authentication.
 
+#### create NATS stream & consumer
+
+We also need to create a [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) [stream](https://docs.nats.io/nats-concepts/jetstream/streams) called `AUS_ISTFAHRT_2` that `gtfs-rt-feed` will read (unmatched) GTFS-RT messages from. This can be done using the [NATS CLI](https://github.com/nats-io/natscli):
+
+```shell
+nats stream add \
+	# omit this if you want to configure more details
+	--defaults \
+	# collect all messages published to these subjects
+	--subjects='aus.istfahrt.>' \
+	# acknowledge publishes
+	--ack \
+	# with limited storage, discard the oldest limits first
+	--retention=limits --discard=old \
+	--description='VDV-454 AUS IstFahrt messages' \
+	# name of the stream
+	AUS_ISTFAHRT_2
+```
+
+On the `AUS_ISTFAHRT_2` stream, we create a durable [consumer]():
+
+```shell
+nats consumer add \
+	# omit this if you want to configure more details
+	--defaults \
+	# create a pull-based consumer (refer to the NATS JetStream docs)
+	--pull \
+	# let gtfs-rt-feed explicitly acknowledge all received messages
+	--ack=explicit \
+	# let the newly created consumer start with the latest messages in AUS_ISTFAHRT_2 (not all)
+	--deliver=new \
+	# send gtfs-rt-feed at most 200 messages at once
+	--max-pending=200 \
+	# when & how often to re-deliver a message that hasn't been acknowledged (usually because it couldn't be processed)
+	--max-deliver=3 \
+	--backoff=linear \
+	--backoff-steps=2 \
+	--backoff-min=15s \
+	--backoff-max=2m \
+	--description 'OpenDataVBB/gtfs-rt-feed' \
+	# name of the stream
+	AUS_ISTFAHRT_2 \
+	# name of the consumer
+	gtfs-rt-feed
+```
+
 #### configure access to Redis
 
 `gtfs-rt-feed` uses [`ioredis`](https://npmjs.com/package/ioredis) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [its docs](https://github.com/redis/ioredis#readme).
@@ -234,7 +280,7 @@ todo: `$LOG_LEVEL_STATION_WEIGHT`
 todo: `$METRICS_SERVER_PORT`
 todo: `$MATCHING_CONCURRENCY`
 todo: `$MATCH_GTFS_RT_TO_GTFS_CACHING`
-todo: `$MATCHING_CONSUMER_DURABLE_NAME`
+todo: `$MATCHING_CONSUMER_NAME`
 todo: `$PG_POOL_SIZE`
 
 ### Alternative: Docker Compose setup
