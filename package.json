@@ -20,6 +20,7 @@
 		"node": ">=22"
 	},
 	"dependencies": {
+		"async-iterator-concurrent-map": "^1.0.2",
 		"ioredis": "^5.4.1",
 		"iter-tools": "^7.5.3",
 		"lodash": "^4.17.21",
