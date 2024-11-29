@@ -11,6 +11,7 @@ Continuously **matches realtime transit data in the [VDV-454 structure](https://
 
 > [!TIP]
 > Although `gtfs-rt-feed` can be used standalone, it is intended to be used in tandem with [`vdv-453-nats-adapter`](https://github.com/OpenDataVBB/vdv-453-nats-adapter) – which pulls the input VDV-454 data from a VDV-453/-454 API – and [`nats-consuming-gtfs-rt-server`](https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server) – which combines the `DIFFERENTIAL`-mode GTFS-RT data sent by `gtfs-rt-feed` into a single non-differential feed and serves it via HTTP.
+>
 > For more details about the architecture `gtfs-rt-feed` has been designed for, refer to the [VBB deployment's readme](https://github.com/OpenDataVBB/gtfs-rt-infrastructure/blob/main/readme.md).
 
 It uses the [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-importer) to import the GTFS Schedule data into a new PostgreSQL database whenever it has changed.
@@ -255,7 +256,9 @@ export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_import')"
 
 > [!NOTE]
 > If you're running `gtfs-rt-feed` in a continuous (service-like) fashion, you'll want to run the GTFS Schedule import regularly, e.g. once per day. `postgis-gtfs-importer` won't import again if the dataset hasn't changed.
+>
 > Because it highly depends on your deployment strategy and preferences on how to schedule the import – and how to modify `$PGDATABASE` for the `gtfs-rt-feed` process afterwards –, this repo doesn't contain any tool for that.
+>
 > As an example, [VBB's deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) uses a [systemd timer](https://wiki.archlinux.org/title/Systemd/Timers) to schedule the import, and a [systemd service drop-in file](https://unix.stackexchange.com/a/468067/593065) to set `$PGDATABASE`.
 
 ### run `gtfs-rt-feed`
