@@ -175,7 +175,7 @@ By default, `gtfs-rt-feed` will connect as `gtfs-rt-$MAJOR_VERSION` to `localhos
 
 #### create NATS stream & consumer
 
-We also need to create a [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) [stream](https://docs.nats.io/nats-concepts/jetstream/streams) called `AUS_ISTFAHRT_2` that `gtfs-rt-feed` will read (unmatched) GTFS-RT messages from. This can be done using the [NATS CLI](https://github.com/nats-io/natscli):
+We also need to create a [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) [stream](https://docs.nats.io/nats-concepts/jetstream/streams) called `AUS_ISTFAHRT_2` that `gtfs-rt-feed` will read (unmatched) VDV-454 `AUS` `IstFahrt` messages from. This can be done using the [NATS CLI](https://github.com/nats-io/natscli):
 
 ```shell
 nats stream add \
@@ -192,7 +192,7 @@ nats stream add \
 	AUS_ISTFAHRT_2
 ```
 
-On the `AUS_ISTFAHRT_2` stream, we create a durable [consumer]():
+On the `AUS_ISTFAHRT_2` stream, we create a durable [consumer](https://docs.nats.io/nats-concepts/jetstream/consumers) called `gtfs-rt-feed`:
 
 ```shell
 nats consumer add \
@@ -217,6 +217,23 @@ nats consumer add \
 	AUS_ISTFAHRT_2 \
 	# name of the consumer
 	gtfs-rt-feed
+```
+
+Next, again using the NATS CLI, we'll create a stream called `GTFS_RT_2` that the `gtfs-rt-feed` service will write (matched) GTFS-RT messages into:
+
+```shell
+nats stream add \
+	# omit this if you want to configure more details
+	--defaults \
+	# collect all messages published to these subjects
+	--subjects='gtfsrt.>' \
+	# acknowledge publishes
+	--ack \
+	# with limited storage, discard the oldest limits first
+	--retention=limits --discard=old \
+	--description='GTFS-RT messages' \
+	# name of the stream
+	GTFS_RT_2
 ```
 
 #### configure access to Redis
