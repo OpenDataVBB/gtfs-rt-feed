@@ -1,5 +1,4 @@
-import {Counter} from 'prom-client'
-import {createMetricsServer, register} from './lib/metrics.js'
+import {createMetricsServer} from './lib/metrics.js'
 import {createLogger} from './lib/logger.js'
 import {connectToNats} from './lib/nats.js'
 import {runGtfsMatching} from './lib/match.js'

@@ -1,7 +1,7 @@
 {
 	"private": true,
-	"name": "vbb-gtfs-rt-service",
-	"description": "Matches realtime VDV-454 transit data against GTFS Schedule and serves it as GTFS Realtime.",
+	"name": "vbb-gtfs-rt-feed",
+	"description": "Matches realtime VDV-454 transit data against GTFS Schedule, producing GTFS Realtime data.",
 	"version": "0.1.0",
 	"type": "module",
 	"main": "index.js",
