@@ -4,6 +4,7 @@ const tripUpdate981 = {
 		"route_id": "1871_700",
 		"direction_id": 0,
 		"start_date": "20240627",
+		"schedule_relationship": 0,
 	},
 	"stop_time_update": [
 		{

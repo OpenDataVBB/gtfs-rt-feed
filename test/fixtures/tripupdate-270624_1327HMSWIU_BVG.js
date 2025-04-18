@@ -4,6 +4,7 @@ const tripUpdateU8 = {
 		direction_id: 1,
 		trip_id: '234897203',
 		start_date: '20240627',
+		schedule_relationship: 0,
 	},
 	stop_time_update: [
 		{
