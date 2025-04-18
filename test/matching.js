@@ -11,7 +11,7 @@ import {createMatchWithGtfs} from '../lib/raw-match.js'
 const ausIstFahrt687 = require('./fixtures/aus-istfahrt-13865-00024-1#HVG.json')
 import tripUpdate687 from './fixtures/tripupdate-13865-00024-1_HVG.js'
 const ausIstFahrt981 = require('./fixtures/aus-istfahrt-17638-00054-1#SVF.json')
-// import tripUpdate981 from'./fixtures/tripupdate-17638-00054-1_SVF.js'
+import tripUpdate981 from'./fixtures/tripupdate-17638-00054-1_SVF.js'
 const ausIstFahrtU8 = require('./fixtures/aus-istfahrt-270624_1327HMSWIU#BVG.json')
 import tripUpdateU8 from './fixtures/tripupdate-270624_1327HMSWIU_BVG.js'
 
@@ -44,10 +44,7 @@ test('correctly matches AUS IstFahrt 13865-00024-1#HVG & converts to TripUpdate'
 	deepStrictEqual(tripUpdate, tripUpdate687)
 })
 
-// currently skipped because
-// - most stations are missing (just stops) in GTFS Schedule – AUS mostly uses station IDs
-// todo: the same AUS IstFahrt contains less IstHalts than GTFS Schedule stop_times – handle this
-test.skip('correctly matches AUS IstFahrt 17638-00054-1#SVF & converts to TripUpdate', async (t) => {
+test('correctly matches AUS IstFahrt 17638-00054-1#SVF & converts to TripUpdate', async (t) => {
 	const {
 		item: tripUpdate,
 		isMatched,
@@ -56,9 +53,9 @@ test.skip('correctly matches AUS IstFahrt 17638-00054-1#SVF & converts to TripUp
 	ok(!isCached, 'must not be cached')
 	ok(isMatched, 'must be matched')
 
-	// todo
+	// todo: match `ODEG_122207` IstHalt too – see notes in `tripUpdate981` fixture
 	// todo: expect platform names
-	// deepStrictEqual(tripUpdate, tripUpdate981)
+	deepStrictEqual(tripUpdate, tripUpdate981)
 })
 
 test('correctly matches the sparse AUS IstFahrt 270624_1327HMSWIU#BVG & converts to TripUpdate', async (t) => {
