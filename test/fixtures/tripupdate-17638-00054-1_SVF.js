@@ -9,6 +9,7 @@ const tripUpdate981 = {
 	"stop_time_update": [
 		{
 			"stop_sequence": 0,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360079::3",
 			"arrival": {
 				"time": 1719476640,
@@ -21,6 +22,7 @@ const tripUpdate981 = {
 		},
 		{
 			"stop_sequence": 1,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360135::2",
 			"arrival": {
 				"time": 1719476856,
@@ -35,6 +37,7 @@ const tripUpdate981 = {
 		// todo: AUS IstHalt uses HaltID `ODEG_122207` instead of `ODEG_900360222`
 		{
 			"stop_sequence": 2,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360222::1",
 			"arrival": {
 				"time": 1719476880, // 2024-06-27T10:28:00+02:00
@@ -47,6 +50,7 @@ const tripUpdate981 = {
 		},
 		{
 			// "stop_sequence": null,
+			"schedule_relationship": null,
 			"stop_id": "122207",
 			"arrival": {
 				"time": 1719476972, // 2024-06-27T10:29:32+02:00
@@ -60,6 +64,7 @@ const tripUpdate981 = {
 
 		{
 			"stop_sequence": 3,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360022::1",
 			"arrival": {
 				"time": 1719477075, // 2024-06-27T10:31:15+02:00
@@ -73,6 +78,7 @@ const tripUpdate981 = {
 		// AUS IstFahrt contains no IstHalt for this Schedule stop_time
 		{
 			"stop_sequence": 4,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360218::1",
 			"arrival": {
 				"time": 1719476970,
@@ -86,6 +92,7 @@ const tripUpdate981 = {
 		// AUS IstFahrt contains no IstHalt for this Schedule stop_time
 		{
 			"stop_sequence": 5,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360036::1",
 			"arrival": {
 				"time": 1719477030,
@@ -99,6 +106,7 @@ const tripUpdate981 = {
 		// AUS IstFahrt contains no IstHalt for this Schedule stop_time
 		{
 			"stop_sequence": 6,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360112::1",
 			"arrival": {
 				"time": 1719477120,
@@ -112,6 +120,7 @@ const tripUpdate981 = {
 		// AUS IstFahrt contains no IstHalt for this Schedule stop_time
 		{
 			"stop_sequence": 7,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360116::1",
 			"arrival": {
 				"time": 1719477180,
@@ -125,6 +134,7 @@ const tripUpdate981 = {
 		// AUS IstFahrt contains no IstHalt for this Schedule stop_time
 		{
 			"stop_sequence": 8,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360037::1",
 			"arrival": {
 				"time": 1719477330,
@@ -137,6 +147,7 @@ const tripUpdate981 = {
 		},
 		{
 			"stop_sequence": 9,
+			"schedule_relationship": 0,
 			"stop_id": "de:12053:900360000::5",
 			"arrival": {
 				"time": 1719477672, // 2024-06-27T10:41:12+02:00
