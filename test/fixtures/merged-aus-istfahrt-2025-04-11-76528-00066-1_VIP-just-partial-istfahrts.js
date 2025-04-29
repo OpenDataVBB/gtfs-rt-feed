@@ -1,0 +1,51 @@
+const mergedAusIstFahrtJustPartialIstFahrts = {
+	Zst: '2025-04-11T07:06:36.176+02:00',
+	LinienID: 'VIP 92',
+	LinienText: '92',
+	RichtungsID: 'MJ',
+	RichtungsText: null,
+	FahrtID: {
+		FahrtBezeichner: '76528-00066-1#VIP',
+		Betriebstag: '2025-04-11'
+	},
+	Komplettfahrt: 'false',
+	UmlaufID: null,
+	PrognoseMoeglich: 'true',
+	FaelltAus: null,
+	FahrtStartEnde: null,
+	FahrzeugTypID: null,
+	ServiceAttributs: [],
+	'$BestaetigungZst': '2025-04-11T05:06:36.432Z',
+	IstHalts: [
+		{
+			HaltID: '900230999',
+			Ankunftszeit: '2025-04-11T06:57:00+02:00',
+			IstAnkunftPrognose: '2025-04-11T06:58:12+02:00',
+			AnkunftssteigText: null,
+			Aussteigeverbot: null,
+			Abfahrtszeit: '2025-04-11T06:57:00+02:00',
+			IstAbfahrtPrognose: '2025-04-11T06:58:12+02:00',
+			AbfahrtssteigText: null,
+			Einsteigeverbot: null,
+			Durchfahrt: null,
+			Zusatzhalt: null,
+			HinweisText: null,
+		},
+		{
+			HaltID: '900230024',
+			Ankunftszeit: '2025-04-11T07:05:30+02:00',
+			IstAnkunftPrognose: '2025-04-11T07:06:02+02:00',
+			AnkunftssteigText: null,
+			Aussteigeverbot: null,
+			Abfahrtszeit: '2025-04-11T07:05:30+02:00',
+			IstAbfahrtPrognose: '2025-04-11T07:06:34+02:00',
+			AbfahrtssteigText: null,
+			Einsteigeverbot: null,
+			Durchfahrt: null,
+			Zusatzhalt: null,
+			HinweisText: null,
+		},
+	],
+}
+
+export default mergedAusIstFahrtJustPartialIstFahrts

@@ -12,4 +12,5 @@ env \
 
 # ---
 
+node vdv-merging.js
 env MATCH_GTFS_RT_TO_GTFS_CACHING=false node matching.js

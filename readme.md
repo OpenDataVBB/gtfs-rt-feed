@@ -19,10 +19,36 @@ It uses the [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-
 
 ## How *matching* works
 
-This service reads VDV-454 `IstFahrt`s (in JSON instead of XML) from a [NATS message queue](https://docs.nats.io/):
+This service reads both VDV-454 `REF-AUS` `SollFahrt`s and VDV-454 `AUS` `IstFahrt`s from a [NATS message queue](https://docs.nats.io/) (in JSON instead of XML):
 
 ```json5
+// REF-AUS SollFahrt
 // To be more readable, this example only contains essential fields. In practice, there are more.
+{
+	"LinienID": "M77",
+	"UmlaufID": "1234",
+	"FahrtID": {
+		"FahrtBezeichner": "9325_877_8_2_19_1_1806#BVG",
+		"Betriebstag": "2024-09-20",
+	},
+	"SollHalts": [
+		{
+			"HaltID": "900073281",
+			"Abfahrtszeit": "2024-09-20T12:41:00Z",
+		},
+		{
+			"HaltID": "900073236",
+			"Ankunftszeit": "2024-09-20T12:43:00Z",
+			"Abfahrtszeit": "2024-09-20T12:45:00Z",
+		},
+		// Usually there are more IstHalts, but the IstFahrt may not be complete.
+	],
+}
+```
+
+```json5
+// AUS IstFahrt
+// Again, non-essential fields are omitted.
 {
 	"LinienID": "M77",
 	"LinienText": "M77",
@@ -30,12 +56,8 @@ This service reads VDV-454 `IstFahrt`s (in JSON instead of XML) from a [NATS mes
 		"FahrtBezeichner": "9325_877_8_2_19_1_1806#BVG",
 		"Betriebstag": "2024-09-20",
 	},
+	"Komplettfahrt": null,
 	"IstHalts": [
-		{
-			"HaltID": "900073281",
-			"Abfahrtszeit": "2024-09-20T12:41:00Z",
-			"IstAbfahrtPrognose": "2024-09-20T13:47:00+01:00", // 6 minutes delay
-		},
 		{
 			"HaltID": "900073236",
 			"Ankunftszeit": "2024-09-20T12:43:00Z",
@@ -43,12 +65,22 @@ This service reads VDV-454 `IstFahrt`s (in JSON instead of XML) from a [NATS mes
 			"IstAnkunftPrognose": "2024-09-20T13:46:00+01:00", // 3 minutes delay
 			"IstAbfahrtPrognose": "2024-09-20T13:47:00+01:00", // 2 minutes delay
 		},
-		// Usually there are more IstHalts, but the IstFahrt may not be complete.
+		// Sometimes there are more IstHalts, but the IstFahrt may also contain just one IstHalt.
 	],
 }
 ```
 
-First, it is transformed into a GTFS-RT `TripUpdate`, so that subsequent code must only deal with GTFS-RT concepts.
+For each trip "instance" (e.g. the M77 above, starting at `2024-09-20T12:41:00Z`), there *may* be
+- **a `REF-AUS` `SollFahrt`**, delineating the *scheduled* (read: as intended by the transport company's medium-term planning, i.e. taking into account construction work, strikes, etc.) sequence of stops. – These messages (there can by multiple per trip "instance") are typically sent at the beginning of the *schedule day* early in the morning.
+- **0 or more `AUS` `IstFahrt`s with *all* `IstHalts`**, as indicated by their `Komplettfahrt=true` flag, delineating the prognosed sequence of stops. – These messages are typically sent right before the first departure of and during a trip "instance". Besides providing prognosed arrival/departure times, they also express *cancelled* and *added* stops; They are considered *exhaustive* descriptions of the trip "instance". Only the most recent is kept for each trip "instance".
+- **0 or more *partial* `AUS` `IstFahrt`s**, as indicated by the lack of `Komplettfahrt=true`, expressing realtime changes just to those stops that they contain `IstHalt`s for. For each stop of each trip "instance", the most recent is kept.
+
+For a single trip "instance", both the number of (each) kind of message as well as their order is unknown. This is why `gtfs-rt-feed`
+1. persists all of these messages in a key-value store (Redis), so that,
+2. whenever a new message is received, it can query all previous ones concerning the same trip "instance", and
+3. **merge them into a single new `IstFahrt` structure**, "layering" the realtime data from the received `AUS` `IstFahrt`s on top of the schedule data from the received `REF-AUS` `SollFahrt`.
+
+After merging, the `IstFahrt` is transformed into a GTFS-RT `TripUpdate`, so that subsequent code must only deal with GTFS-RT concepts.
 
 ```js
 // Again, this example has been shortened for readability.
@@ -123,7 +155,7 @@ The GTFS Schedule trip "instance" is then formatted as a GTFS-RT `TripUpdate` (i
 }
 ```
 
-This whole process, which we call *matching*, is done continuously for each VDV-454 `IstFahrt` received from NATS.
+This whole process, which we call *matching*, is done continuously for each VDV-454 `SollFahrt`/`IstFahrt` received from NATS.
 
 
 ## Installation
@@ -174,24 +206,31 @@ By default, `gtfs-rt-feed` will connect as `gtfs-rt-$MAJOR_VERSION` to `localhos
 
 #### create NATS stream & consumer
 
-We also need to create a [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) [stream](https://docs.nats.io/nats-concepts/jetstream/streams) called `AUS_ISTFAHRT_2` that `gtfs-rt-feed` will read (unmatched) VDV-454 `AUS` `IstFahrt` messages from. This can be done using the [NATS CLI](https://github.com/nats-io/natscli):
+We also need to create two [NATS JetStream](https://docs.nats.io/nats-concepts/jetstream) [streams](https://docs.nats.io/nats-concepts/jetstream/streams) called `REF_AUS_SOLLFAHRT_2` and `AUS_ISTFAHRT_2` that `gtfs-rt-feed` will read (unmatched) VDV-454 `REF-AUS` `SollFahrt` and `AUS` `IstFahrt` messages from, respectively. This can be done using the [NATS CLI](https://github.com/nats-io/natscli):
 
 ```shell
 nats stream add \
 	# omit this if you want to configure more details
 	--defaults \
 	# collect all messages published to these subjects
-	--subjects='aus.istfahrt.>' \
+	--subjects='ref_aus.sollfahrt.>' \
 	# acknowledge publishes
 	--ack \
 	# with limited storage, discard the oldest limits first
 	--retention=limits --discard=old \
-	--description='VDV-454 AUS IstFahrt messages' \
+	--description='VDV-454 REF-AUS SollFahrt messages' \
 	# name of the stream
+	REF_AUS_SOLLFAHRT_2
+nats stream add \
+	--defaults \
+	--subjects='aus.istfahrt.>' \
+	--ack \
+	--retention=limits --discard=old \
+	--description='VDV-454 AUS IstFahrt messages' \
 	AUS_ISTFAHRT_2
 ```
 
-On the `AUS_ISTFAHRT_2` stream, we create a durable [consumer](https://docs.nats.io/nats-concepts/jetstream/consumers) called `gtfs-rt-feed`:
+On the both streams, we create one durable [consumer](https://docs.nats.io/nats-concepts/jetstream/consumers) each called `gtfs-rt-feed`:
 
 ```shell
 nats consumer add \
@@ -213,8 +252,22 @@ nats consumer add \
 	--backoff-max=2m \
 	--description 'OpenDataVBB/gtfs-rt-feed' \
 	# name of the stream
-	AUS_ISTFAHRT_2 \
+	REF_AUS_SOLLFAHRT_2 \
 	# name of the consumer
+	gtfs-rt-feed
+nats consumer add \
+	--defaults \
+	--pull \
+	--ack=explicit \
+	--deliver=new \
+	--max-pending=200 \
+	--max-deliver=3 \
+	--backoff=linear \
+	--backoff-steps=2 \
+	--backoff-min=15s \
+	--backoff-max=2m \
+	--description 'OpenDataVBB/gtfs-rt-feed' \
+	AUS_ISTFAHRT_2 \
 	gtfs-rt-feed
 ```
 
