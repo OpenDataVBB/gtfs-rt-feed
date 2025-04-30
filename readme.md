@@ -48,7 +48,7 @@ This service reads VDV-454 `IstFahrt`s (in JSON instead of XML) from a [NATS mes
 }
 ```
 
-First, it is transformed it into a GTFS-RT `TripUpdate`, so that subsequent must only deal with GTFS-RT concepts.
+First, it is transformed into a GTFS-RT `TripUpdate`, so that subsequent code must only deal with GTFS-RT concepts.
 
 ```js
 // Again, this example has been shortened for readability.
@@ -131,9 +131,8 @@ This whole process, which we call *matching*, is done continuously for each VDV-
 There is [a Docker image available](https://github.com/OpenDataVBB/pkgs/container/gtfs-rt-feed):
 
 ```shell
-# Pull the Docker images …
+# pull the Docker image …
 docker pull ghcr.io/opendatavbb/gtfs-rt-feed
-docker pull ghcr.io/mobidata-bw/postgis-gtfs-importer:v4 # needed for importing GTFS Schedule data
 
 # … or install everything manually (you will need Node.js & npm).
 git clone https://github.com/OpenDataVBB/gtfs-rt-feed.git gtfs-rt-feed
@@ -238,7 +237,10 @@ nats stream add \
 
 #### configure access to Redis
 
-`gtfs-rt-feed` uses [`ioredis`](https://npmjs.com/package/ioredis) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [its docs](https://github.com/redis/ioredis#readme).
+`gtfs-rt-feed` uses [`ioredis`](https://npmjs.com/package/ioredis) to connect to Redis; For details about supported environment variables and their defaults, refer to [its docs](https://github.com/redis/ioredis#readme).
+
+> [!TIP]
+> You should allow Redis to use at least a few hundred MB of memory. With the VBB deployment, we limit it to 2GB.
 
 ### import GTFS Schedule data
 
@@ -276,7 +278,7 @@ export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_import')"
 >
 > Because it highly depends on your deployment strategy and preferences on how to schedule the import – and how to modify `$PGDATABASE` for the `gtfs-rt-feed` process afterwards –, this repo doesn't contain any tool for that.
 >
-> As an example, [VBB's deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) uses a [systemd timer](https://wiki.archlinux.org/title/Systemd/Timers) to schedule the import, and a [systemd service drop-in file](https://unix.stackexchange.com/a/468067/593065) to set `$PGDATABASE`.
+> As an example, [VBB's deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) uses a [systemd timer](https://wiki.archlinux.org/title/Systemd/Timers) to schedule the import and a [systemd service drop-in file](https://unix.stackexchange.com/a/468067/593065) to set `$PGDATABASE`.
 
 ### run `gtfs-rt-feed`
 
