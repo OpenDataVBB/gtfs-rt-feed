@@ -187,7 +187,7 @@ cd postgis-gtfs-importer && npm install --omit dev
 
 - a [NATS message queue](https://docs.nats.io) with [JetStream](https://docs.nats.io/nats-concepts/jetstream) enabled
 - a [PostgreSQL database server](https://postgresql.org), with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer)'s readme)
-- a [Redis in-memory cache](https://redis.io/docs/latest/)
+- a [Redis in-memory cache](https://redis.io/docs/latest/), at least 8.0.0 is required (Valkey currently doesn't support the `HSETEX` command)
 
 #### configure access to PostgreSQL
 

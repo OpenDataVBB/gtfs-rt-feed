@@ -29,7 +29,7 @@ const {
 	})
 })
 beforeEach(async () => {
-	await _vdvMergingStorage.redis.flushdb()
+	await _vdvMergingStorage.flushdb()
 })
 after(async () => {
 	await stopVdvMerging()
