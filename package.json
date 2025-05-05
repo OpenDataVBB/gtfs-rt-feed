@@ -34,7 +34,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
 		"eslint": "^9.0.0",
-		"globals": "^15.0.0",
+		"globals": "^16.0.0",
 		"pino-pretty": "^10.3.1"
 	},
 	"scripts": {
