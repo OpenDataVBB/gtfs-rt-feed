@@ -1,5 +1,5 @@
 import {test, beforeEach, after} from 'node:test'
-import {deepStrictEqual} from 'node:assert/strict'
+import {strictEqual, deepStrictEqual} from 'node:assert/strict'
 import omit from 'lodash/omit.js'
 import {createLogger} from '../lib/logger.js'
 import {
@@ -253,7 +253,15 @@ test('correctly stores & merges REF-AUS SollFahrt, Komplettfahrt=true AUS IstFah
 		],
 	})
 
-	const merged = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	const {
+		hasRefAusSollFahrt,
+		hasKomplettfahrtAusIstFahrt,
+		hasPartialAusIstFahrts,
+		mergedIstFahrt: merged,
+	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	strictEqual(hasRefAusSollFahrt, true)
+	strictEqual(hasKomplettfahrtAusIstFahrt, true)
+	strictEqual(hasPartialAusIstFahrts, true)
 	deepStrictEqual(merged, mergedAusIstFahrt92All)
 })
 
@@ -280,7 +288,15 @@ test('correctly stores & merges REF-AUS SollFahrt & sparse IstFahrts', async (t)
 		],
 	})
 
-	const merged = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	const {
+		hasRefAusSollFahrt,
+		hasKomplettfahrtAusIstFahrt,
+		hasPartialAusIstFahrts,
+		mergedIstFahrt: merged,
+	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	strictEqual(hasRefAusSollFahrt, true)
+	strictEqual(hasKomplettfahrtAusIstFahrt, false)
+	strictEqual(hasPartialAusIstFahrts, true)
 	deepStrictEqual(merged, mergedAusIstFahrt92NoKomplettfahrt)
 })
 
@@ -306,6 +322,14 @@ test('correctly stores & merges sparse IstFahrts (only)', async (t) => {
 		],
 	})
 
-	const merged = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	const {
+		hasRefAusSollFahrt,
+		hasKomplettfahrtAusIstFahrt,
+		hasPartialAusIstFahrts,
+		mergedIstFahrt: merged,
+	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	strictEqual(hasRefAusSollFahrt, false)
+	strictEqual(hasKomplettfahrtAusIstFahrt, false)
+	strictEqual(hasPartialAusIstFahrts, true)
 	deepStrictEqual(merged, mergedAusIstFahrt92JustPartialIstFahrts)
 })
