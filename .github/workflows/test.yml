@@ -61,6 +61,10 @@ jobs:
         PGDATABASE: postgres
 
     - run: npm install
+    - name: npm install (postgis-gtfs-importer)
+      run: |
+        cd postgis-gtfs-importer
+        npm install --production
 
     - run: npm run lint
     - run: npm test
