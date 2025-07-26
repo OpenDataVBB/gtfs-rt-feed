@@ -28,8 +28,26 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - name: install sponge (moreutils)
-      run: sudo apt install -y moreutils
+    - name: install APT dependencies
+      run: |
+        sudo apt install -y \
+          curl \
+          gpg \
+          lsb-release \
+          moreutils \
+          unzip
+
+    # Note: We install Redis v8 from their PPA because the Ubuntu/Debian sources only have v7.
+    # see also https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/apt/
+    - name: install & start Redis
+      run: |
+        set -eux -o pipefail
+        curl -fsSL 'https://packages.redis.io/gpg' | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+        sudo chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+        sudo apt update
+        sudo apt install -y redis
+        redis-cli PING
 
     - name: install & start PostgreSQL with PostGIS
       run: |
