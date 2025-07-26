@@ -10,6 +10,13 @@ on:
   # make this workflow callable from other workflows
   workflow_call:
 
+env:
+  PGHOST: localhost
+  PGPORT: '5432'
+  PGUSER: postgres
+  PGPASSWORD: password
+  PGDATABASE: postgres
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -58,7 +65,7 @@ jobs:
       run: |
         docker run -d \
           -e POSTGRES_USER=$PGUSER -e POSTGRES_PASSWORD=$PGPASSWORD -e POSTGRES_DB=$PGDATABASE \
-          -p 5432:5432 postgis/postgis:${{ matrix.postgis-docker-tag }} \
+          -p "$PGPORT:5432" postgis/postgis:${{ matrix.postgis-docker-tag }} \
           -c timezone=Europe/Berlin
       env:
         PGUSER: postgres
