@@ -49,6 +49,9 @@ jobs:
         curl -fsSL 'https://gist.github.com/derhuerst/745cf09fe5f3ea2569948dd215bbfe1a/raw/9d145086ba239f05b20b6b984fa49563bd781194/mirror.mjs' -o /usr/local/bin/curl-mirror
         chmod +x /usr/local/bin/curl-mirror
 
+    - name: set timezone to Europe/Berlin
+      run: sudo timedatectl set-timezone Europe/Berlin
+
     # Note: We install Redis v8 from their PPA because the Ubuntu/Debian sources only have v7.
     # see also https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/apt/
     - name: install & start Redis
