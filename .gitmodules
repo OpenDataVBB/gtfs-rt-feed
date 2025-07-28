@@ -1,4 +1,4 @@
 [submodule "postgis-gtfs-importer"]
 	path = postgis-gtfs-importer
 	url = https://github.com/mobidata-bw/postgis-gtfs-importer.git
-	branch = v4
+	branch = v5
