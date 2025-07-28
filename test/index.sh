@@ -12,5 +12,7 @@ env \
 
 # ---
 
+export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')"
+
 node vdv-merging.js
 env MATCH_GTFS_RT_TO_GTFS_CACHING=false node matching.js
