@@ -1,4 +1,5 @@
 const tripUpdateU8 = {
+	timestamp: null,
 	trip: {
 		route_id: '17525_400',
 		direction_id: 1,

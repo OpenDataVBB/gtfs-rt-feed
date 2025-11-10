@@ -1,4 +1,5 @@
 const tripUpdate981 = {
+	timestamp: 1719476550, // 2024-06-27T10:22:30+02:00
 	"trip": {
 		"trip_id": "234717603",
 		"route_id": "1871_700",
