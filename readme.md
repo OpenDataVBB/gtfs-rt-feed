@@ -19,6 +19,8 @@ It uses the [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-
 
 ## How *matching* works
 
+### VDV `REF-AUS`/`AUS` reconciliation
+
 This service reads both VDV-454 `REF-AUS` `SollFahrt`s and VDV-454 `AUS` `IstFahrt`s from a [NATS message queue](https://docs.nats.io/) (in JSON instead of XML):
 
 ```json5
@@ -41,7 +43,7 @@ This service reads both VDV-454 `REF-AUS` `SollFahrt`s and VDV-454 `AUS` `IstFah
 			"Ankunftszeit": "2024-09-20T12:43:00Z",
 			"Abfahrtszeit": "2024-09-20T12:45:00Z",
 		},
-		// Usually there are more IstHalts, but the IstFahrt may not be complete.
+		// Note: Usually the SollFahrt has all SollHalts, but sometimes it may not be complete.
 	],
 }
 ```
@@ -65,17 +67,17 @@ This service reads both VDV-454 `REF-AUS` `SollFahrt`s and VDV-454 `AUS` `IstFah
 			"IstAnkunftPrognose": "2024-09-20T13:46:00+01:00", // 3 minutes delay
 			"IstAbfahrtPrognose": "2024-09-20T13:47:00+01:00", // 2 minutes delay
 		},
-		// Sometimes there are more IstHalts, but the IstFahrt may also contain just one IstHalt.
+		// Note: Sometimes there are more IstHalts, but often IstFahrts are incomplete, with even just one IstHalt.
 	],
 }
 ```
 
 For each trip "instance" (e.g. the M77 above, starting at `2024-09-20T12:41:00Z`), there *may* be
 - **a `REF-AUS` `SollFahrt`**, delineating the *scheduled* (read: as intended by the transport company's medium-term planning, i.e. taking into account construction work, strikes, etc.) sequence of stops. – These messages (there can by multiple per trip "instance") are typically sent at the beginning of the *schedule day* early in the morning.
-- **0 or more `AUS` `IstFahrt`s with *all* `IstHalts`**, as indicated by their `Komplettfahrt=true` flag, delineating the prognosed sequence of stops. – These messages are typically sent right before the first departure of and during a trip "instance". Besides providing prognosed arrival/departure times, they also express *cancelled* and *added* stops; They are considered *exhaustive* descriptions of the trip "instance". Only the most recent is kept for each trip "instance".
+- **0 or more `AUS` `IstFahrt`s with *all* `IstHalts`**, as indicated by their `Komplettfahrt=true` flag, delineating the prognosed *complete* sequence of stops. – These messages are typically sent right before the first departure of and during a trip "instance". Besides providing prognosed arrival/departure times, they also express *cancelled* and *added* stops; They are considered *exhaustive* descriptions of the trip "instance". Only the most recent is kept for each trip "instance".
 - **0 or more *partial* `AUS` `IstFahrt`s**, as indicated by the lack of `Komplettfahrt=true`, expressing realtime changes just to those stops that they contain `IstHalt`s for. For each stop of each trip "instance", the most recent is kept.
 
-For a single trip "instance", both the number of (each) kind of message as well as their order is unknown. This is why `gtfs-rt-feed`
+For a single trip "instance", both the number of (each) kind of message as well as their order is unknown. This is why `gtfs-rt-feed`, in a process called "VDV reconciliation",
 1. persists all of these messages in a key-value store (Redis), so that,
 2. whenever a new message is received, it can query all previous ones concerning the same trip "instance", and
 3. **merge them into a single new `IstFahrt` structure**, "layering" the realtime data from the received `AUS` `IstFahrt`s on top of the schedule data from the received `REF-AUS` `SollFahrt`.
@@ -110,6 +112,8 @@ After merging, the `IstFahrt` is transformed into a GTFS-RT `TripUpdate`, so tha
 	[kRouteShortName]: "M77",
 }
 ```
+
+### GTFS Schedule matching
 
 Within the imported GTFS Schedule data, `gtfs-rt-feed` then tries to find trip "instances" that
 - have the same `route_short_name` ("M77"),
@@ -228,6 +232,13 @@ nats stream add \
 	--retention=limits --discard=old \
 	--description='VDV-454 AUS IstFahrt messages' \
 	AUS_ISTFAHRT_2
+nats stream add \
+	--defaults \
+	--subjects='vdv.fahrt.>' \
+	--ack \
+	--retention=limits --discard=old \
+	--description='VDV-454 Fahrt (combined REF-AUS SollFahrt & AUS IstFahrt) messages' \
+	VDV_FAHRT_2
 ```
 
 On the both streams, we create one durable [consumer](https://docs.nats.io/nats-concepts/jetstream/consumers) each called `gtfs-rt-feed`:
@@ -250,11 +261,11 @@ nats consumer add \
 	--backoff-steps=2 \
 	--backoff-min=15s \
 	--backoff-max=2m \
-	--description 'OpenDataVBB/gtfs-rt-feed' \
+	--description 'OpenDataVBB/gtfs-rt-feed: vdv-reconciliation service' \
 	# name of the stream
 	REF_AUS_SOLLFAHRT_2 \
 	# name of the consumer
-	gtfs-rt-feed
+	'gtfs-rt-feed:vdv-reconciliation'
 nats consumer add \
 	--defaults \
 	--pull \
@@ -266,9 +277,23 @@ nats consumer add \
 	--backoff-steps=2 \
 	--backoff-min=15s \
 	--backoff-max=2m \
-	--description 'OpenDataVBB/gtfs-rt-feed' \
+	--description 'OpenDataVBB/gtfs-rt-feed: vdv-reconciliation service' \
 	AUS_ISTFAHRT_2 \
-	gtfs-rt-feed
+	'gtfs-rt-feed:vdv-reconciliation'
+nats consumer add \
+	--defaults \
+	--pull \
+	--ack=explicit \
+	--deliver=new \
+	--max-pending=200 \
+	--max-deliver=3 \
+	--backoff=linear \
+	--backoff-steps=2 \
+	--backoff-min=15s \
+	--backoff-max=2m \
+	--description 'OpenDataVBB/gtfs-rt-feed: gtfs-matching service' \
+	VDV_FAHRT_2 \
+	'gtfs-rt-feed:gtfs-matching'
 ```
 
 Next, again using the NATS CLI, we'll create a stream called `GTFS_RT_2` that the `gtfs-rt-feed` service will write (matched) GTFS-RT messages into:

@@ -4,7 +4,6 @@
 	"description": "Matches realtime VDV-454 transit data against GTFS Schedule, producing GTFS Realtime data.",
 	"version": "0.1.0",
 	"type": "module",
-	"main": "index.js",
 	"author": "Verkehrsverbund Berlin Brandenburg <info@vbb.de>",
 	"contributors": [
 		"Jannis R <mail@jannisr.de>"
@@ -38,7 +37,6 @@
 		"pino-pretty": "^13.0.0"
 	},
 	"scripts": {
-		"start": "node index.js",
 		"lint": "eslint .",
 		"test": "./test/index.sh",
 		"prepublishOnly": "npm run lint && npm test"
