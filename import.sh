@@ -36,7 +36,7 @@ if [ "${1:-}" = '--docker' ]; then
 		-e GTFS_IMPORTER_SCHEMA \
 		-e GTFS_POSTPROCESSING_D_PATH=/etc/gtfs-postprocessing.d \
 		-e PGHOST -e PGPORT -e PGUSER -e PGPASSWORD -e PGDATABASE \
-		ghcr.io/mobidata-bw/postgis-gtfs-importer:v4
+		ghcr.io/mobidata-bw/postgis-gtfs-importer:v5
 else
 	# run PostGIS GTFS importer locally
 	./postgis-gtfs-importer/importer.js
