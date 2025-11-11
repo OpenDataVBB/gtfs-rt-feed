@@ -39,6 +39,7 @@ try {
 
 	withSoftExit(() => {
 		natsClient.drain()
+		metricsServer.close()
 	})
 } catch (err) {
 	logger.error(err)
