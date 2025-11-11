@@ -1,7 +1,6 @@
 import {createMetricsServer} from './lib/metrics.js'
 import {createLogger} from './lib/logger.js'
-import {connectToNats} from './lib/nats.js'
-import {runGtfsMatching} from './lib/match.js'
+import {runGtfsMatching} from './lib/gtfs-matching.js'
 import {withSoftExit} from './lib/soft-exit.js'
 
 const logger = createLogger('service')
@@ -10,15 +9,6 @@ const abortWithError = (err) => {
 	logger.error(err)
 	process.exit(1)
 }
-
-const natsLogger = createLogger('nats')
-const {
-	natsClient,
-	natsJetstreamClient,
-	natsJetstreamManager,
-} = await connectToNats({
-	logger: natsLogger,
-})
 
 const metricsServer = createMetricsServer()
 metricsServer.start()
@@ -30,15 +20,14 @@ metricsServer.start()
 // - check if DB looks good
 
 try {
-	await runGtfsMatching({
+	const {
+		stop: stopGtfsMatching,
+	} = await runGtfsMatching({
 		logger,
-		natsClient,
-		natsJetstreamClient,
-		natsJetstreamManager,
 	})
 
 	withSoftExit(() => {
-		natsClient.drain()
+		stopGtfsMatching().catch(abortWithError)
 		metricsServer.close()
 	})
 } catch (err) {
