@@ -2,6 +2,7 @@ import {test, beforeEach, after} from 'node:test'
 import {strictEqual, deepStrictEqual} from 'node:assert/strict'
 import omit from 'lodash/omit.js'
 import {createLogger} from '../lib/logger.js'
+import {connectToRedis} from '../lib/redis.js'
 import {
 	computeVdvFahrtId,
 	createMergeVdvFahrtWithRefAusSollFahrtAndAusIstFahrts,
@@ -17,23 +18,24 @@ import mergedAusIstFahrt92All from './fixtures/merged-aus-istfahrt-2025-04-11-76
 import mergedAusIstFahrt92NoKomplettfahrt from './fixtures/merged-aus-istfahrt-2025-04-11-76528-00066-1_VIP-no-komplettfahrt.js'
 import mergedAusIstFahrt92JustPartialIstFahrts from './fixtures/merged-aus-istfahrt-2025-04-11-76528-00066-1_VIP-just-partial-istfahrts.js'
 
+const _vdvMergingStorage = await connectToRedis()
 const {
-	storage: _vdvMergingStorage,
 	storeRefAusSollFahrt,
 	storeAusIstFahrt,
 	readEquivalentVdvFahrts,
 	mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts,
-	stop: stopVdvMerging,
 } = await createMergeVdvFahrtWithRefAusSollFahrtAndAusIstFahrts({
 	logger: createLogger('vdv-merging-test', {
+		// level: 'trace',
 		level: 'fatal',
-	})
+	}),
+	redis: _vdvMergingStorage,
 })
 beforeEach(async () => {
 	await _vdvMergingStorage.flushdb()
 })
 after(async () => {
-	await stopVdvMerging()
+	await _vdvMergingStorage.quit()
 })
 
 const fahrtID = {
