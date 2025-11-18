@@ -3,6 +3,7 @@ import {strictEqual, deepStrictEqual} from 'node:assert/strict'
 import omit from 'lodash/omit.js'
 import {createLogger} from '../lib/logger.js'
 import {
+	computeVdvFahrtId,
 	createMergeVdvFahrtWithRefAusSollFahrtAndAusIstFahrts,
 	mergeVdvHalts,
 } from '../lib/merge-vdv-sollfahrts-istfahrts.js'
@@ -229,13 +230,14 @@ test('correctly merges Komplettfahrt=true AUS IstFahrt & sparse IstFahrt', async
 })
 
 test('correctly stores & merges REF-AUS SollFahrt, Komplettfahrt=true AUS IstFahrt & sparse IstFahrt', async (t) => {
-	await storeRefAusSollFahrt(refAusSollFahrt92)
-	await storeAusIstFahrt(ausIstFahrt92_1) // Komplettfahrt=true
-	await storeAusIstFahrt(ausIstFahrt92_2)
-	await storeAusIstFahrt(ausIstFahrt92_3) // Komplettfahrt=true
-	await storeAusIstFahrt(ausIstFahrt92_4)
+	const fahrtId = computeVdvFahrtId(refAusSollFahrt92)
+	await storeRefAusSollFahrt(fahrtId, refAusSollFahrt92)
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_1) // Komplettfahrt=true
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_2)
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_3) // Komplettfahrt=true
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_4)
 
-	const equivalents = await readEquivalentVdvFahrts(ausIstFahrt92_4)
+	const equivalents = await readEquivalentVdvFahrts(fahrtId, ausIstFahrt92_4)
 	deepStrictEqual(equivalents, {
 		refAusSollFahrt: refAusSollFahrt92,
 		// ausIstFahrt92_3 & ausIstFahrt92_3 are Komplettfahrt=true IstFahrts, ausIstFahrt92_2 & ausIstFahrt92_4 each contain only 1 IstHalt.
@@ -258,7 +260,7 @@ test('correctly stores & merges REF-AUS SollFahrt, Komplettfahrt=true AUS IstFah
 		hasKomplettfahrtAusIstFahrt,
 		hasPartialAusIstFahrts,
 		mergedIstFahrt: merged,
-	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(fahrtId, ausIstFahrt92_4)
 	strictEqual(hasRefAusSollFahrt, true)
 	strictEqual(hasKomplettfahrtAusIstFahrt, true)
 	strictEqual(hasPartialAusIstFahrts, true)
@@ -266,11 +268,12 @@ test('correctly stores & merges REF-AUS SollFahrt, Komplettfahrt=true AUS IstFah
 })
 
 test('correctly stores & merges REF-AUS SollFahrt & sparse IstFahrts', async (t) => {
-	await storeRefAusSollFahrt(refAusSollFahrt92)
-	await storeAusIstFahrt(ausIstFahrt92_2)
-	await storeAusIstFahrt(ausIstFahrt92_4)
+	const fahrtId = computeVdvFahrtId(refAusSollFahrt92)
+	await storeRefAusSollFahrt(fahrtId, refAusSollFahrt92)
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_2)
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_4)
 
-	const equivalents = await readEquivalentVdvFahrts(ausIstFahrt92_4)
+	const equivalents = await readEquivalentVdvFahrts(fahrtId, ausIstFahrt92_4)
 	deepStrictEqual(equivalents, {
 		refAusSollFahrt: refAusSollFahrt92,
 		komplettfahrtAusIstFahrt: null,
@@ -293,7 +296,7 @@ test('correctly stores & merges REF-AUS SollFahrt & sparse IstFahrts', async (t)
 		hasKomplettfahrtAusIstFahrt,
 		hasPartialAusIstFahrts,
 		mergedIstFahrt: merged,
-	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(fahrtId, ausIstFahrt92_4)
 	strictEqual(hasRefAusSollFahrt, true)
 	strictEqual(hasKomplettfahrtAusIstFahrt, false)
 	strictEqual(hasPartialAusIstFahrts, true)
@@ -301,10 +304,11 @@ test('correctly stores & merges REF-AUS SollFahrt & sparse IstFahrts', async (t)
 })
 
 test('correctly stores & merges sparse IstFahrts (only)', async (t) => {
-	await storeAusIstFahrt(ausIstFahrt92_2)
-	await storeAusIstFahrt(ausIstFahrt92_4)
+	const fahrtId = computeVdvFahrtId(refAusSollFahrt92)
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_2)
+	await storeAusIstFahrt(fahrtId, ausIstFahrt92_4)
 
-	const equivalents = await readEquivalentVdvFahrts(ausIstFahrt92_4)
+	const equivalents = await readEquivalentVdvFahrts(fahrtId, ausIstFahrt92_4)
 	deepStrictEqual(equivalents, {
 		refAusSollFahrt: null,
 		komplettfahrtAusIstFahrt: null,
@@ -327,7 +331,7 @@ test('correctly stores & merges sparse IstFahrts (only)', async (t) => {
 		hasKomplettfahrtAusIstFahrt,
 		hasPartialAusIstFahrts,
 		mergedIstFahrt: merged,
-	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(ausIstFahrt92_4)
+	} = await mergeVdvFahrtWithEquivalentRefAusSollFahrtAndAusIstFahrts(fahrtId, ausIstFahrt92_4)
 	strictEqual(hasRefAusSollFahrt, false)
 	strictEqual(hasKomplettfahrtAusIstFahrt, false)
 	strictEqual(hasPartialAusIstFahrts, true)
