@@ -40,13 +40,20 @@ jobs:
     - name: set up QEMU for cross-platform builds
       uses: docker/setup-qemu-action@v3
 
+    - name: compute Docker image name
+      run: |
+        # lower-case repo name
+        echo "DOCKER_IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+      env:
+        GITHUB_REPOSITORY: '${{ github.repository }}'
+
     - name: build and push Docker image
       uses: docker/build-push-action@v5
       with:
         push: true
         tags: |
-          ghcr.io/${{ github.repository }}:latest
-          ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          ${{ env.DOCKER_IMAGE }}:latest
+          ${{ env.DOCKER_IMAGE }}:${{ github.ref_name }}
         labels: ${{ steps.docker-metadata.outputs.labels }}
         platforms: linux/amd64,linux/arm64
         # https://docs.docker.com/build/ci/github-actions/cache/#cache-backend-api
