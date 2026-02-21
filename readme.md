@@ -72,7 +72,7 @@ This service reads both VDV-454 `REF-AUS` `SollFahrt`s and VDV-454 `AUS` `IstFah
 }
 ```
 
-For each trip "instance" (e.g. the M77 above, starting at `2024-09-20T12:41:00Z`), there *may* be
+For each trip "instance" (e.g. the *M77* bus above, starting at `2024-09-20T12:41:00Z`), there *may* be
 - **a `REF-AUS` `SollFahrt`**, delineating the *scheduled* (read: as intended by the transport company's medium-term planning, i.e. taking into account construction work, strikes, etc.) sequence of stops. – These messages (there can by multiple per trip "instance") are typically sent at the beginning of the *schedule day* early in the morning.
 - **0 or more `AUS` `IstFahrt`s with *all* `IstHalts`**, as indicated by their `Komplettfahrt=true` flag, delineating the prognosed *complete* sequence of stops. – These messages are typically sent right before the first departure of and during a trip "instance". Besides providing prognosed arrival/departure times, they also express *cancelled* and *added* stops; They are considered *exhaustive* descriptions of the trip "instance". Only the most recent is kept for each trip "instance".
 - **0 or more *partial* `AUS` `IstFahrt`s**, as indicated by the lack of `Komplettfahrt=true`, expressing realtime changes just to those stops that they contain `IstHalt`s for. For each stop of each trip "instance", the most recent is kept.
@@ -115,7 +115,7 @@ After merging, the `IstFahrt` is transformed into a GTFS-RT `TripUpdate`, so tha
 
 ### GTFS Schedule matching
 
-Within the imported GTFS Schedule data, `gtfs-rt-feed` then tries to find trip "instances" that
+Within the [imported GTFS Schedule data](#import-gtfs-schedule-data), `gtfs-rt-feed` then tries to find trip "instances" that
 - have the same `route_short_name` ("M77"),
 - for at least two `IstHalts`, stop at (roughly) the same scheduled time (`2024-09-20T12:41:00Z`) at (roughly) the same stop (`900073281`).
 
@@ -159,7 +159,7 @@ The GTFS Schedule trip "instance" is then formatted as a GTFS-RT `TripUpdate` (i
 }
 ```
 
-This whole process, which we call *matching*, is done continuously for each VDV-454 `SollFahrt`/`IstFahrt` received from NATS.
+This whole process, which we call *matching*, is done continuously for each VDV-454 `SollFahrt`/`IstFahrt` message received from NATS.
 
 
 ## Installation
@@ -190,7 +190,7 @@ cd postgis-gtfs-importer && npm install --omit dev
 `gtfs-rt-feed` needs access to the following services to work:
 
 - a [NATS message queue](https://docs.nats.io) with [JetStream](https://docs.nats.io/nats-concepts/jetstream) enabled
-- a [PostgreSQL database server](https://postgresql.org), with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer)'s readme)
+- a [PostgreSQL database server](https://postgresql.org), at least v14 is required, with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer)'s readme)
 - a [Redis in-memory cache](https://redis.io/docs/latest/), at least 8.0.0 is required (Valkey currently doesn't support the `HSETEX` command)
 
 #### configure access to PostgreSQL
@@ -352,9 +352,10 @@ export PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_import')"
 ```
 
 > [!NOTE]
+> For simplicity's sake, in this guide, we only import the GTFS Schedule data by running the command manually.
 > If you're running `gtfs-rt-feed` in a continuous (service-like) fashion, you'll want to run the GTFS Schedule import regularly, e.g. once per day. `postgis-gtfs-importer` won't import again if the dataset hasn't changed.
 >
-> Because it highly depends on your deployment strategy and preferences on how to schedule the import – and how to modify `$PGDATABASE` for the `gtfs-rt-feed` process afterwards –, this repo doesn't contain any tool for that.
+> Because it highly depends on your deployment strategy and preferences on how to schedule the import – and how to modify `$PGDATABASE` for the `gtfs-rt-feed` process afterwards –, this repo doesn't contain any tool for that. It assumes however that the import is running "out-of-band" (e.g. in a sidecar container or a separate service) from `gtfs-rt-feed`'s main matching service.
 >
 > As an example, [VBB's deployment](https://github.com/OpenDataVBB/gtfs-rt-infrastructure) uses a [systemd timer](https://wiki.archlinux.org/title/Systemd/Timers) to schedule the import and a [systemd service drop-in file](https://unix.stackexchange.com/a/468067/593065) to set `$PGDATABASE`.
 
