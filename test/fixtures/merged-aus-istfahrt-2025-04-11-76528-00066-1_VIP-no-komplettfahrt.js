@@ -8,7 +8,7 @@ const mergedAusIstFahrtNoKomplettfahrt = {
 	RichtungsText: 'Kirschallee',
 	VonRichtungsText: 'Bisamkiez',
 	VerkehrsmittelText: null,
-	PrognoseMoeglich: null,
+	PrognoseMoeglich: 'true',
 	Fahrradmitnahme: null,
 	FahrtID: {
 		FahrtBezeichner: '76528-00066-1#VIP',
