@@ -19,6 +19,47 @@ It uses the [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-
 
 ## How *matching* works
 
+```mermaid
+flowchart TB
+	classDef machine fill:none,stroke:#9b59b6
+
+	input@{ shape: sm-circ }
+	output@{ shape: framed-circle }
+
+	subgraph gtfs_rt_feed [OpenDataVBB/gtfs-rt-feed]
+		subgraph services
+			gtfs_matching_service(gtfs-matching-service)
+			vdv_reconciliation_service(vdv-reconciliation-service)
+		end
+		style services fill:none,stroke:none
+		%% gtfs_importer(GTFS import script)
+		gtfs_db[(PostgreSQL DB with GTFS Schedule data)]
+		redis[(Redis)]
+	end
+	class gtfs_rt_feed machine
+	subgraph nats[NATS JetStream]
+		nats_ref_aus_sollfahrt["`*REF_AUS_SOLLFAHRT_2* stream`"]:::stream
+		nats_aus_istfahrt["`*AUS_ISTFAHRT_2* stream`"]:::stream
+		nats_vdv_fahrt["`*VDV_FAHRT_2* stream`"]:::stream
+		nats_gtfs_rt["`*GTFS_RT_2* stream`"]:::stream
+		classDef stream fill:#ffffde,stroke:#aaaa33
+	end
+	style nats fill:none
+
+	input-->nats_ref_aus_sollfahrt
+	nats_ref_aus_sollfahrt-- "`VDV-453 *REF-AUS* *SollFahrt* messages`" -->vdv_reconciliation_service
+	input-->nats_aus_istfahrt
+	nats_aus_istfahrt-- "`VDV-454 *AUS* *IstFahrt* messages`" -->vdv_reconciliation_service
+	vdv_reconciliation_service-- "`reconciles *SollFahrt*s & *IstFahrt*s using`" ---redis
+	vdv_reconciliation_service-- "`VDV *Fahrt*s messages`"-->nats_vdv_fahrt
+	nats_vdv_fahrt-->gtfs_matching_service
+	%% gtfs_importer-- "`updates with new GTFS Schedule data`" -->gtfs_db
+	gtfs_matching_service-- "`matches VDV *Fahrt*s with`" ---gtfs_db
+	gtfs_matching_service-- "`caches matching results using`" ---redis
+	gtfs_matching_service-- "`GTFS-RT messages`"-->nats_gtfs_rt
+	nats_gtfs_rt-->output
+```
+
 ### VDV `REF-AUS`/`AUS` reconciliation
 
 This service reads both VDV-454 `REF-AUS` `SollFahrt`s and VDV-454 `AUS` `IstFahrt`s from a [NATS message queue](https://docs.nats.io/) (in JSON instead of XML):
