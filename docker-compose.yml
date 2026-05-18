@@ -38,7 +38,7 @@ services:
     # https://github.com/compose-spec/compose-spec/blob/77cc0f9575b560c94ca2a3b94db126c54c9e4759/spec.md#profiles
     profiles:
       - import-gtfs
-    image: ghcr.io/mobidata-bw/postgis-gtfs-importer:v4
+    image: ghcr.io/mobidata-bw/postgis-gtfs-importer:v7
     # todo: remove --platform
     platform: linux/amd64
     volumes:
@@ -55,7 +55,7 @@ services:
 
   db:
     hostname: db
-    image: postgis/postgis:16-3.4-alpine
+    image: postgis/postgis:16-3.5-alpine
     ports:
       # allow it to run along side a PostgreSQL server on the host machine
       - '5433:5432'

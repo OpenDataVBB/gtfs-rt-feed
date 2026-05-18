@@ -14,7 +14,7 @@ Continuously **matches realtime transit data in the [VDV-454 structure](https://
 >
 > For more details about the architecture `gtfs-rt-feed` has been designed for, refer to the [VBB deployment's readme](https://github.com/OpenDataVBB/gtfs-rt-infrastructure/blob/main/readme.md).
 
-It uses the [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-importer) to import the GTFS Schedule data into a new PostgreSQL database whenever it has changed.
+It uses the [PostGIS GTFS importer](https://github.com/mobidata-bw/postgis-gtfs-importer/tree/v7) to import the GTFS Schedule data into a new PostgreSQL database whenever it has changed.
 
 
 ## How *matching* works
@@ -231,14 +231,14 @@ cd postgis-gtfs-importer && npm install --omit dev
 `gtfs-rt-feed` needs access to the following services to work:
 
 - a [NATS message queue](https://docs.nats.io) with [JetStream](https://docs.nats.io/nats-concepts/jetstream) enabled
-- a [PostgreSQL database server](https://postgresql.org), at least v14 is required, with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer)'s readme)
+- a [PostgreSQL database server](https://postgresql.org), at least v16 is required, with the permission to dynamically create new databases (see [postgis-gtfs-importer](https://github.com/mobidata-bw/postgis-gtfs-importer/tree/v7)'s readme)
 - a [Redis in-memory cache](https://redis.io/docs/latest/), at least 8.0.0 is required (Valkey currently doesn't support the `HSETEX` command)
 
 #### configure access to PostgreSQL
 
 `gtfs-rt-feed` uses [`pg`](https://npmjs.com/package/pg) to connect to PostgreSQL; For details about supported environment variables and their defaults, refer to [`pg`'s docs](https://node-postgres.com).
 
-To make sure that the connection works, use [`psql`](https://www.postgresql.org/docs/14/app-psql.html) from the same context (same permissions, same container if applicable, etc.).
+To make sure that the connection works, use [`psql`](https://www.postgresql.org/docs/16/app-psql.html) from the same context (same permissions, same container if applicable, etc.).
 
 #### configure access to NATS
 
@@ -370,7 +370,7 @@ The GTFS import script will
 1. import it into a separate database called `gtfs_$timestamp_$gtfs_hash` (each revision gets its own database);
 2. keep track of the latest *successfully imported* database's name in a meta "bookkeeping" database (`$PGDATABASE` by default).
 
-Refer to [postgis-gtfs-importer's docs](https://github.com/mobidata-bw/postgis-gtfs-importer#) for details about why this is done and how it works.
+Refer to [postgis-gtfs-importer's docs](https://github.com/mobidata-bw/postgis-gtfs-importer/tree/v7) for details about why this is done and how it works.
 
 Optionally, you can
 - activate [gtfstidy](https://github.com/patrickbr/gtfstidy)-ing before import using `GTFSTIDY_BEFORE_IMPORT=true`;

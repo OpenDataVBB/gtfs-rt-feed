@@ -16,7 +16,7 @@
 	"bugs": "https://github.com/OpenDataVBB/gtfs-rt-feed/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=22"
+		"node": ">=24"
 	},
 	"dependencies": {
 		"async-iterator-concurrent-map": "^1.0.2",
