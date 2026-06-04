@@ -1,18 +1,13 @@
-// todo: use import assertions once they're supported by Node.js & ESLint
-// https://github.com/tc39/proposal-import-assertions
-import {createRequire} from 'module'
-const require = createRequire(import.meta.url)
-
 import {test, after} from 'node:test'
 import {ok, deepStrictEqual} from 'node:assert/strict'
 import {createLogger} from '../lib/logger.js'
 import {createMatchWithGtfs} from '../lib/raw-match.js'
 
-const ausIstFahrt687 = require('./fixtures/aus-istfahrt-13865-00024-1#HVG.json')
+import ausIstFahrt687 from './fixtures/aus-istfahrt-13865-00024-1%23HVG.json' with {type: 'json'}
 import tripUpdate687 from './fixtures/tripupdate-13865-00024-1_HVG.js'
-const ausIstFahrt981 = require('./fixtures/aus-istfahrt-17638-00054-1#SVF.json')
+import ausIstFahrt981 from './fixtures/aus-istfahrt-17638-00054-1%23SVF.json' with {type: 'json'}
 import tripUpdate981 from'./fixtures/tripupdate-17638-00054-1_SVF.js'
-const ausIstFahrtU8 = require('./fixtures/aus-istfahrt-270624_1327HMSWIU#BVG.json')
+import ausIstFahrtU8 from './fixtures/aus-istfahrt-270624_1327HMSWIU%23BVG.json' with {type: 'json'}
 import tripUpdateU8 from './fixtures/tripupdate-270624_1327HMSWIU_BVG.js'
 
 const {
