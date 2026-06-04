@@ -23,3 +23,19 @@ env \
 
 env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
 	node matching-vbb-2024.js
+
+# ---
+
+# VBB 2026-06-03 (filtered to only one M5 trip) test
+
+psql -c 'CREATE DATABASE test_vbb_m5'
+export PGDATABASE=test_vbb_m5
+env \
+	GTFS_TMP_DIR="$PWD/gtfs" \
+	GTFS_DOWNLOAD_URL="file://$PWD/fixtures/vbb-m5-2026-06-03.gtfs.zip" \
+	GTFS_IMPORTER_SCHEMA=public \
+	GTFS_IMPORTER_DB_PREFIX=vbb_m5 \
+	../import.sh
+
+env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
+	node matching-m5.js

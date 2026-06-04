@@ -1,0 +1,40 @@
+{
+	"Zst": "2026-06-04T16:04:38Z",
+	"LinienID": "M5",
+	"LinienText": "M5",
+	"RichtungsID": "2",
+	"RichtungsText": null,
+	"FahrtID": {
+		"FahrtBezeichner": "26342-860574653700",
+		"Betriebstag": "2026-06-04"
+	},
+	"FahrtStartEnde": {
+		"StartHaltID": null,
+		"Startzeit": null,
+		"EndHaltID": null,
+		"Endzeit": null
+	},
+	"Komplettfahrt": "false",
+	"UmlaufID": null,
+	"PrognoseMoeglich": null,
+	"FaelltAus": null,
+	"FahrzeugTypID": null,
+	"ServiceAttributs": [],
+	"IstHalts": [
+		{
+			"HaltID": "900150513",
+			"Abfahrtszeit": "2026-06-04T19:49:00+02:00",
+			"IstAbfahrtPrognose": "2026-06-04T19:49:00+02:00",
+			"AbfahrtssteigText": null,
+			"Einsteigeverbot": null,
+			"Ankunftszeit": "2026-06-04T19:50:00+02:00",
+			"IstAnkunftPrognose": "2026-06-04T19:50:00+02:00",
+			"AnkunftssteigText": null,
+			"Aussteigeverbot": null,
+			"Durchfahrt": null,
+			"Zusatzhalt": null,
+			"HinweisText": null
+		}
+	],
+	"$BestaetigungZst": "2026-06-04T16:04:43.356Z"
+}
