@@ -25,7 +25,7 @@ RUN apk add --update --no-cache \
 	zstd
 # install curl-mirror
 RUN curl -fsSL \
-	'https://gist.github.com/derhuerst/745cf09fe5f3ea2569948dd215bbfe1a/raw/9d145086ba239f05b20b6b984fa49563bd781194/mirror.mjs' \
+	'https://gist.github.com/derhuerst/745cf09fe5f3ea2569948dd215bbfe1a/raw/664103bae1c89a208fc2afb18f463e78b59c7e24/mirror.mjs' \
 	-H 'User-Agent: OpenDataVBB/gtfs-rt-feed Docker build' \
 	-o /usr/local/bin/curl-mirror \
 	&& chmod +x /usr/local/bin/curl-mirror \
