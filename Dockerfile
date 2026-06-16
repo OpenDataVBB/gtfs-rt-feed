@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.8
 # ^ needed for ADD --checksum=…
 
-FROM node:22-alpine
+FROM node:24-alpine
 WORKDIR /app
 
 LABEL org.opencontainers.image.title="gtfs-rt-feed"
