@@ -38,4 +38,4 @@ env \
 	../import.sh
 
 env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
-	node matching-m5.js
+	node matching-vbb-m5.js
