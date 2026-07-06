@@ -11,4 +11,5 @@ node_modules
 /.env
 
 /test/gtfs
+/test/fixtures/*.gtfs
 /gtfs
