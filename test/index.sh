@@ -55,3 +55,19 @@ env \
 
 env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
 	node matching-vbb-m19.js
+
+# ---
+
+# VBB 2026-07-29 (filtered to only one M29 trip) test
+
+psql -c 'CREATE DATABASE test_vbb_m29'
+export PGDATABASE=test_vbb_m29
+env \
+	GTFS_TMP_DIR="$PWD/gtfs" \
+	GTFS_DOWNLOAD_URL="file://$PWD/fixtures/vbb-m29-2026-07-29.gtfs.zip" \
+	GTFS_IMPORTER_SCHEMA=public \
+	GTFS_IMPORTER_DB_PREFIX=vbb_m29 \
+	../import.sh
+
+env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
+	node matching-vbb-m29.js
