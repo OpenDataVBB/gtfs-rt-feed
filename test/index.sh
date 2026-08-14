@@ -70,4 +70,5 @@ env \
 	../import.sh
 
 env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
+	VDV_FAHRTS_INCLUDE_SERVICE_STOPS=false \
 	node matching-vbb-m29.js

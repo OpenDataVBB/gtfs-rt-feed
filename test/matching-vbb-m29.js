@@ -8,7 +8,7 @@ import {
 } from '../lib/extract-data-srv-from-vdv-fahrtbezeichner.js'
 import {
 	STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_SCHEDULED,
-	STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_SKIPPED,
+	STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_NO_DATA,
 } from '../lib/gtfs-rt.js'
 
 import ausIstFahrt from './fixtures/aus-istfahrt-2026-07-30-M29-96013-860414150100.json' with {type: 'json'}
@@ -68,7 +68,8 @@ test('correctly matches AUS IstFahrt', async (t) => {
 		},
 		{
 			stop_sequence: 45,
-			schedule_relationship: STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_SKIPPED,
+			// Note: We expect the service stop from the GTFS Schedule data *not to be* marked as cancelled.
+			schedule_relationship: STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_NO_DATA,
 			stop_id: 'de:11000:900048109::1',
 		},
 	])
