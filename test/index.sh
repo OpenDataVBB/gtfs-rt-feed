@@ -72,3 +72,20 @@ env \
 env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
 	VDV_FAHRTS_INCLUDE_SERVICE_STOPS=false \
 	node matching-vbb-m29.js
+
+# ---
+
+# VBB 2026-08-27 (filtered to only one re3 trip) test
+
+psql -c 'CREATE DATABASE test_vbb_re3'
+export PGDATABASE=test_vbb_re3
+env \
+	GTFS_TMP_DIR="$PWD/gtfs" \
+	GTFS_DOWNLOAD_URL="file://$PWD/fixtures/vbb-re3-2026-08-27.gtfs.zip" \
+	GTFS_IMPORTER_SCHEMA=public \
+	GTFS_IMPORTER_DB_PREFIX=vbb_re3 \
+	../import.sh
+
+env PGDATABASE="$(psql -q --csv -t -c 'SELECT db_name FROM latest_successful_imports')" \
+	VDV_FAHRTS_INCLUDE_SERVICE_STOPS=false \
+	node matching-vbb-re3.js
