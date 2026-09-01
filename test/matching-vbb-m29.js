@@ -4,9 +4,6 @@ import pick from 'lodash/pick.js'
 import {createLogger} from '../lib/logger.js'
 import {createMatchWithGtfs} from '../lib/raw-match.js'
 import {
-	extractDataSourceFromFahrtBezeichner as defaultExtractDataSourceFromFahrtBezeichner,
-} from '../lib/extract-data-srv-from-vdv-fahrtbezeichner.js'
-import {
 	STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_SCHEDULED,
 	STOPTIMEUPDATE_SCHEDULE_RELATIONSHIP_NO_DATA,
 } from '../lib/gtfs-rt.js'
@@ -20,7 +17,6 @@ const {
 	logger: createLogger('matching-test', {
 		level: 'fatal',
 	}),
-	extractDataSourceFromFahrtBezeichner: defaultExtractDataSourceFromFahrtBezeichner,
 })
 after(async () => {
 	await stop()

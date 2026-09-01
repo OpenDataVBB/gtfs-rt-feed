@@ -3,9 +3,6 @@ import {ok, deepStrictEqual} from 'node:assert/strict'
 import pick from 'lodash/pick.js'
 import {createLogger} from '../lib/logger.js'
 import {createMatchWithGtfs} from '../lib/raw-match.js'
-import {
-	extractDataSourceFromFahrtBezeichner as defaultExtractDataSourceFromFahrtBezeichner,
-} from '../lib/extract-data-srv-from-vdv-fahrtbezeichner.js'
 
 import ausIstFahrtKomplettfahrt from './fixtures/aus-istfahrt-2026-07-06-M19-129776-860514850000-komplettfahrt.json' with {type: 'json'}
 
@@ -16,7 +13,6 @@ const {
 	logger: createLogger('matching-test', {
 		level: 'fatal',
 	}),
-	extractDataSourceFromFahrtBezeichner: defaultExtractDataSourceFromFahrtBezeichner,
 })
 after(async () => {
 	await stop()
