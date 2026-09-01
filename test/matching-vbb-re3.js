@@ -49,19 +49,12 @@ test('correctly matches AUS IstFahrt with Komplettfahrt=true & converts to TripU
 			stop_id: 'de:12073:900340003:1:50',
 			schedule_relationship: 0,
 		},
-
-		// cancelled GTFS Schedule stop_time
 		{
 			stop_sequence: 3,
+			// The AUS IstHalt.HaltID `900340004` is "more correct" (closer to the station's canonical IFOPT/DHID), but we always prefer Schedule over RT stop IDs.
 			stop_id: '000300570037',
-			schedule_relationship: 1
+			schedule_relationship: 0,
 		},
-		// additional VDV Halt
-		{
-			stop_id: '900340004',
-			schedule_relationship: null,
-		},
-
 		{
 			stop_sequence: 4,
 			stop_id: 'de:12060:900350125:2:51',
